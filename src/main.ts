@@ -5,6 +5,8 @@ import router from './router'
 
 // 导入 Element Plus 样式
 import 'element-plus/dist/index.css'
+// 导入 Element Plus 暗黑模式样式
+import 'element-plus/theme-chalk/dark/css-vars.css'
 
 const app = createApp(App)
 

@@ -7,6 +7,7 @@
  * @FilePath: /lyx058019.github.io/src/router/index.ts
  */
 import { createRouter, createWebHistory } from 'vue-router'
+import MainLayout from '../layout/MainLayout.vue'
 import Home from '../views/Home.vue'
 
 const router = createRouter({
@@ -14,8 +15,24 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      component: MainLayout,
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: Home
+        },
+        {
+          path: 'projects',
+          name: 'projects',
+          component: () => import('../views/Projects.vue')
+        },
+        {
+          path: 'about',
+          name: 'about',
+          component: () => import('../views/About.vue')
+        }
+      ]
     }
   ]
 })

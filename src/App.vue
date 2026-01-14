@@ -19,6 +19,6 @@ body {
 
 .app-container {
   min-height: 100vh;
-  background-color: #f5f7fa;
+  background-color: var(--el-bg-color-page);
 }
 </style>
