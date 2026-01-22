@@ -26,7 +26,7 @@ const handleSelect = (key: string) => {
 
 <template>
   <div class="common-layout">
-    <el-container>
+    <el-container class="layout-container">
       <el-header class="header">
         <div class="header-content">
           <div class="logo" @click="router.push('/')">
@@ -48,7 +48,7 @@ const handleSelect = (key: string) => {
           <el-menu :default-active="activeIndex" mode="horizontal" class="nav-menu" @select="handleSelect"
             :ellipsis="false">
             <el-menu-item index="home">首页</el-menu-item>
-            <el-menu-item index="projects">项目</el-menu-item>
+            <!-- <el-menu-item index="projects">项目</el-menu-item> -->
             <el-menu-item index="blog">博客</el-menu-item>
             <el-menu-item index="tools">工具箱</el-menu-item>
             <el-menu-item index="about">关于</el-menu-item>
@@ -70,7 +70,7 @@ const handleSelect = (key: string) => {
         </router-view>
       </el-main>
 
-      <el-footer class="footer">
+      <el-footer class="footer" height="auto">
         <div class="footer-content">
           <p>© 2026 lyx058019. Built with Vue 3 & Element Plus</p>
           <div class="social-links">
@@ -83,6 +83,12 @@ const handleSelect = (key: string) => {
 </template>
 
 <style scoped lang="scss">
+.layout-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .header {
   border-bottom: 1px solid var(--el-border-color-light);
   background-color: var(--el-bg-color);
@@ -178,7 +184,7 @@ const handleSelect = (key: string) => {
 }
 
 .main-content {
-  min-height: calc(100vh - 120px);
+  flex: 1;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;

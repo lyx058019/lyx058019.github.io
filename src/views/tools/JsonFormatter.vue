@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ArrowLeft, Check, Close, CopyDocument, Delete } from '@element-plus/icons-vue'
+import ToolPageLayout from '@/components/common/ToolPageLayout.vue'
+import { Check, Close, CopyDocument, Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
-const router = useRouter()
 const input = ref('')
 const output = ref('')
 const hasError = ref(false)
@@ -56,19 +55,10 @@ const clearAll = () => {
   output.value = ''
   hasError.value = false
 }
-
-const goBack = () => {
-  router.push('/tools')
-}
 </script>
 
 <template>
-  <div class="tool-container">
-    <div class="tool-header">
-      <el-button @click="goBack" :icon="ArrowLeft" link>返回工具箱</el-button>
-      <h1>JSON 格式化</h1>
-    </div>
-
+  <ToolPageLayout title="JSON 格式化" maxWidth="1000px">
     <el-card shadow="never">
       <div class="controls">
         <div class="status">
@@ -103,25 +93,10 @@ const goBack = () => {
         </div>
       </div>
     </el-card>
-  </div>
+  </ToolPageLayout>
 </template>
 
 <style scoped lang="scss">
-.tool-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px;
-
-  .tool-header {
-    margin-bottom: 2rem;
-
-    h1 {
-      margin-top: 1rem;
-      font-size: 2rem;
-    }
-  }
-}
-
 .controls {
   display: flex;
   justify-content: space-between;

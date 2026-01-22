@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ArrowLeft, CopyDocument, Delete } from '@element-plus/icons-vue'
+import ToolPageLayout from '@/components/common/ToolPageLayout.vue'
+import { CopyDocument, Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
-const router = useRouter()
 const input = ref('')
 const output = ref('')
 const mode = ref<'encode' | 'decode'>('encode')
@@ -40,19 +39,10 @@ const clearAll = () => {
   input.value = ''
   output.value = ''
 }
-
-const goBack = () => {
-  router.push('/tools')
-}
 </script>
 
 <template>
-  <div class="tool-container">
-    <div class="tool-header">
-      <el-button @click="goBack" :icon="ArrowLeft" link>返回工具箱</el-button>
-      <h1>Base64 编解码器</h1>
-    </div>
-
+  <ToolPageLayout title="Base64 编解码器" maxWidth="800px">
     <el-card shadow="never">
       <div class="controls">
         <el-radio-group v-model="mode" @change="handleConvert">
@@ -82,25 +72,10 @@ const goBack = () => {
 
       </div>
     </el-card>
-  </div>
+  </ToolPageLayout>
 </template>
 
 <style scoped lang="scss">
-.tool-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-
-  .tool-header {
-    margin-bottom: 2rem;
-
-    h1 {
-      margin-top: 1rem;
-      font-size: 2rem;
-    }
-  }
-}
-
 .controls {
   display: flex;
   justify-content: space-between;

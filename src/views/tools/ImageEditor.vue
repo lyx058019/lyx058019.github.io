@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { ArrowLeft, Download, RefreshLeft, RefreshRight, UploadFilled } from '@element-plus/icons-vue'
+import ToolPageLayout from '@/components/common/ToolPageLayout.vue'
+import { Download, RefreshLeft, RefreshRight, UploadFilled } from '@element-plus/icons-vue'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 import { ElMessage } from 'element-plus'
 import { nextTick, onUnmounted, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 // Refs
 const imageInput = ref<HTMLInputElement | null>(null)
@@ -149,19 +147,10 @@ onUnmounted(() => {
   if (imageUrl.value) URL.revokeObjectURL(imageUrl.value)
   if (resultUrl.value) URL.revokeObjectURL(resultUrl.value)
 })
-
-const goBack = () => {
-  router.push('/tools')
-}
 </script>
 
 <template>
-  <div class="tool-container">
-    <div class="tool-header">
-      <el-button @click="goBack" :icon="ArrowLeft" link>返回工具箱</el-button>
-      <h1>图片处理工具</h1>
-    </div>
-
+  <ToolPageLayout title="图片处理工具" maxWidth="1200px">
     <el-card shadow="never" class="main-card">
       <!-- Input 始终渲染，确保 ref 可用 -->
       <input type="file" ref="imageInput" accept="image/*" style="display: none" @change="handleFileChange">
@@ -238,25 +227,10 @@ const goBack = () => {
         </div>
       </div>
     </el-card>
-  </div>
+  </ToolPageLayout>
 </template>
 
 <style scoped lang="scss">
-.tool-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-
-  .tool-header {
-    margin-bottom: 2rem;
-
-    h1 {
-      margin-top: 1rem;
-      font-size: 2rem;
-    }
-  }
-}
-
 .upload-area {
   border: 2px dashed var(--el-border-color);
   border-radius: 8px;
