@@ -1,20 +1,5 @@
 <script setup lang="ts">
-import { Promotion } from '@element-plus/icons-vue'
-
-const projectList = [
-  {
-    title: '项目 A',
-    description: '一个高性能的 Web 应用。',
-    tech: ['Vue 3', 'TypeScript', 'Sass'],
-    image: 'https://via.placeholder.com/400x200'
-  },
-  {
-    title: '项目 B',
-    description: '基于 Node.js 的后端服务。',
-    tech: ['Node.js', 'Express', 'MongoDB'],
-    image: 'https://via.placeholder.com/400x200'
-  }
-]
+import { projectList } from '@/data/projects';
 </script>
 
 <template>
@@ -50,21 +35,25 @@ const projectList = [
 
 .p-card {
   margin-bottom: 2rem;
+
   .image {
     width: 100%;
     display: block;
   }
+
   .desc {
     font-size: 14px;
     color: var(--el-text-color-secondary);
     margin: 10px 0;
   }
+
   .tech-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 10px;
   }
+
   .bottom {
     display: flex;
     justify-content: flex-end;

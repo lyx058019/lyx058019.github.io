@@ -1,27 +1,10 @@
 <script setup lang="ts">
-import { Cpu, Monitor, Phone, Promotion } from '@element-plus/icons-vue'
+import { projectList } from '@/data/projects'
+import { skills } from '@/data/skills'
+import { Promotion } from '@element-plus/icons-vue'
+import { computed } from 'vue'
 
-const skills = [
-  { name: 'Vue 3', icon: Cpu, progress: 90, color: '#42b883' },
-  { name: 'TypeScript', icon: Monitor, progress: 85, color: '#3178c6' },
-  { name: 'Element Plus', icon: Monitor, progress: 88, color: '#409eff' },
-  { name: 'Vite & Webpack', icon: Cpu, progress: 80, color: '#646cff' },
-]
-
-const projects = [
-  {
-    title: '个人主页项目',
-    description: '采用 Vue 3 + Element Plus 构建的响应式个人门户系统。',
-    tag: 'Web',
-    link: '#'
-  },
-  {
-    title: '自动化部署工具',
-    description: '基于 GitHub Actions 的持续集成与自动化发布方案。',
-    tag: 'DevOps',
-    link: '#'
-  }
-]
+const featuredProjects = computed(() => projectList.filter(p => p.isFeatured))
 </script>
 
 <template>
@@ -44,7 +27,9 @@ const projects = [
       <el-row :gutter="20">
         <el-col :xs="24" :sm="12" :md="6" v-for="skill in skills" :key="skill.name">
           <el-card shadow="hover" class="skill-card">
-            <el-icon :size="40" :style="{ color: skill.color }"><component :is="skill.icon" /></el-icon>
+            <el-icon :size="40" :style="{ color: skill.color }">
+              <component :is="skill.icon" />
+            </el-icon>
             <h3>{{ skill.name }}</h3>
             <el-progress :percentage="skill.progress" :color="skill.color" />
           </el-card>
@@ -56,16 +41,18 @@ const projects = [
     <section class="section projects">
       <h2 class="section-title">精选项目</h2>
       <el-row :gutter="20">
-        <el-col :xs="24" :sm="12" v-for="project in projects" :key="project.title">
+        <el-col :xs="24" :sm="12" v-for="project in featuredProjects" :key="project.title">
           <el-card shadow="hover" class="project-card">
             <template #header>
               <div class="project-header">
                 <span>{{ project.title }}</span>
-                <el-tag size="small">{{ project.tag }}</el-tag>
+                <el-tag size="small">{{ project.tech[0] }}</el-tag>
               </div>
             </template>
             <p>{{ project.description }}</p>
-            <el-link type="primary" :underline="false">查看详情 <el-icon><Promotion /></el-icon></el-link>
+            <el-link type="primary" :underline="false" :href="project.link">查看详情 <el-icon>
+                <Promotion />
+              </el-icon></el-link>
           </el-card>
         </el-col>
       </el-row>
@@ -84,7 +71,7 @@ const projects = [
     font-size: 2rem;
     margin-bottom: 3rem;
     position: relative;
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -112,6 +99,7 @@ const projects = [
   h1 {
     font-size: 3.5rem;
     margin-bottom: 1rem;
+
     .highlight {
       color: var(--el-color-primary);
     }
@@ -127,9 +115,11 @@ const projects = [
 .skill-card {
   text-align: center;
   transition: transform 0.3s;
+
   &:hover {
     transform: translateY(-5px);
   }
+
   h3 {
     margin: 1rem 0;
   }
@@ -137,6 +127,7 @@ const projects = [
 
 .project-card {
   height: 100%;
+
   .project-header {
     display: flex;
     justify-content: space-between;
@@ -148,17 +139,31 @@ const projects = [
 .animate-drop {
   animation: dropIn 0.8s ease-out;
 }
+
 .animate-fade {
   animation: fadeIn 1.2s ease-out;
 }
 
 @keyframes dropIn {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 768px) {

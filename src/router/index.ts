@@ -3,38 +3,48 @@
  * @Date: 2026-01-14 10:17:19
  * @LastEditTime: 2026-01-14 10:17:31
  * @LastEditors: liuyanxin
- * @Description: 
+ * @Description:
  * @FilePath: /lyx058019.github.io/src/router/index.ts
  */
-import { createRouter, createWebHistory } from 'vue-router'
-import MainLayout from '../layout/MainLayout.vue'
-import Home from '../views/Home.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import MainLayout from "../layout/MainLayout.vue";
+import Home from "../views/Home.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: "/",
       component: MainLayout,
       children: [
         {
-          path: '',
-          name: 'home',
-          component: Home
+          path: "",
+          name: "home",
+          component: Home,
         },
         {
-          path: 'projects',
-          name: 'projects',
-          component: () => import('../views/Projects.vue')
+          path: "projects",
+          name: "projects",
+          component: () => import("../views/Projects.vue"),
         },
         {
-          path: 'about',
-          name: 'about',
-          component: () => import('../views/About.vue')
-        }
-      ]
-    }
-  ]
-})
+          path: "blog",
+          name: "blog",
+          component: () => import("../views/Blog.vue"),
+        },
+        {
+          path: "blog/:id",
+          name: "blog-post",
+          component: () => import("../views/BlogPost.vue"),
+        },
+        {
+          path: "about",
+          name: "about",
+          component: () => import("../views/About.vue"),
+        },
+      ],
+    },
+  ],
+});
 
-export default router
+export default router;

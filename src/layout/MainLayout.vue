@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { Moon, Sunny } from '@element-plus/icons-vue'
+import { useDark } from '@vueuse/core'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { Moon, Sunny } from '@element-plus/icons-vue'
-import { useDark, useToggle } from '@vueuse/core'
 
 const router = useRouter()
 const activeIndex = ref('home')
@@ -26,15 +26,11 @@ const handleSelect = (key: string) => {
           <div class="logo" @click="router.push('/')">
             <span class="logo-text">LYX-DEV</span>
           </div>
-          <el-menu
-            :default-active="activeIndex"
-            mode="horizontal"
-            class="nav-menu"
-            @select="handleSelect"
-            :ellipsis="false"
-          >
+          <el-menu :default-active="activeIndex" mode="horizontal" class="nav-menu" @select="handleSelect"
+            :ellipsis="false">
             <el-menu-item index="home">首页</el-menu-item>
             <el-menu-item index="projects">项目</el-menu-item>
+            <el-menu-item index="blog">博客</el-menu-item>
             <el-menu-item index="about">关于</el-menu-item>
           </el-menu>
           <div class="header-right">
@@ -85,6 +81,7 @@ const handleSelect = (key: string) => {
 
   .logo {
     cursor: pointer;
+
     .logo-text {
       font-size: 1.5rem;
       font-weight: bold;
