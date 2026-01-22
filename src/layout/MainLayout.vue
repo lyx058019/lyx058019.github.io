@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { Moon, Sunny } from '@element-plus/icons-vue'
 import { useDark } from '@vueuse/core'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
-const activeIndex = ref('home')
+const route = useRoute()
+
+const activeIndex = computed(() => {
+  const path = route.path
+  if (path === '/') return 'home'
+  return path.split('/')[1] || 'home'
+})
 
 const isDark = useDark()
 const toggleDark = () => {
@@ -44,6 +50,7 @@ const handleSelect = (key: string) => {
             <el-menu-item index="home">首页</el-menu-item>
             <el-menu-item index="projects">项目</el-menu-item>
             <el-menu-item index="blog">博客</el-menu-item>
+            <el-menu-item index="tools">工具箱</el-menu-item>
             <el-menu-item index="about">关于</el-menu-item>
           </el-menu>
           <div class="header-right">

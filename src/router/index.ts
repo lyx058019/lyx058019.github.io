@@ -33,6 +33,26 @@ const router = createRouter({
           component: () => import("../views/Blog.vue"),
         },
         {
+          path: "/tools",
+          name: "tools",
+          component: () => import("../views/Tools.vue"),
+        },
+        {
+          path: "/tools/base64",
+          name: "tool-base64",
+          component: () => import("../views/tools/Base64Converter.vue"),
+        },
+        {
+          path: "/tools/json",
+          name: "tool-json",
+          component: () => import("../views/tools/JsonFormatter.vue"),
+        },
+        {
+          path: "/tools/image",
+          name: "tool-image",
+          component: () => import("../views/tools/ImageEditor.vue"),
+        },
+        {
           path: "blog/:id",
           name: "blog-post",
           component: () => import("../views/BlogPost.vue"),
