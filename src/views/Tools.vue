@@ -16,8 +16,8 @@ const openTool = (path: string) => {
       <p class="page-subtitle">开发者常用的便捷小工具集合</p>
     </div>
 
-    <el-row :gutter="20">
-      <el-col :xs="24" :sm="12" :md="8" v-for="tool in tools" :key="tool.id">
+    <el-row :gutter="20" class="tool-list">
+      <el-col :xs="24" :sm="12" :md="8" v-for="tool in tools" :key="tool.id" class="tool-col">
         <el-card class="tool-card" shadow="hover" @click="openTool(tool.path)">
           <div class="tool-content">
             <div class="tool-icon" :style="{ backgroundColor: tool.color + '20', color: tool.color }">
@@ -58,11 +58,16 @@ const openTool = (path: string) => {
   }
 }
 
+.tool-col {
+  margin-bottom: 20px;
+  /* 增加行间距 */
+}
+
 .tool-card {
   height: 100%;
   cursor: pointer;
   transition: all 0.3s;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px;  移除旧的 margin，由 col 统一控制 */
 
   &:hover {
     transform: translateY(-5px);

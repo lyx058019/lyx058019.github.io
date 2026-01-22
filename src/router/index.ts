@@ -53,6 +53,36 @@ const router = createRouter({
           component: () => import("../views/tools/ImageEditor.vue"),
         },
         {
+          path: "/tools/uuid",
+          name: "tool-uuid",
+          component: () => import("../views/tools/UuidGenerator.vue"),
+        },
+        {
+          path: "/tools/timestamp",
+          name: "tool-timestamp",
+          component: () => import("../views/tools/TimestampConverter.vue"),
+        },
+        {
+          path: "/tools/qrcode",
+          name: "tool-qrcode",
+          component: () => import("../views/tools/QrCodeGenerator.vue"),
+        },
+        {
+          path: "/tools/url",
+          name: "tool-url",
+          component: () => import("../views/tools/UrlEncoder.vue"),
+        },
+        {
+          path: "/tools/hash",
+          name: "tool-hash",
+          component: () => import("../views/tools/HashCalculator.vue"),
+        },
+        {
+          path: "/tools/color",
+          name: "tool-color",
+          component: () => import("../views/tools/ColorConverter.vue"),
+        },
+        {
           path: "blog/:id",
           name: "blog-post",
           component: () => import("../views/BlogPost.vue"),

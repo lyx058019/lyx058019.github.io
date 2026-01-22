@@ -9,6 +9,16 @@ import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: "./src/vitest.setup.ts",
+    server: {
+      deps: {
+        inline: ["element-plus"],
+      },
+    },
+  },
   plugins: [
     Markdown({
       markdownItUses: [Prism],
