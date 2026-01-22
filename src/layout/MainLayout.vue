@@ -24,7 +24,20 @@ const handleSelect = (key: string) => {
       <el-header class="header">
         <div class="header-content">
           <div class="logo" @click="router.push('/')">
-            <span class="logo-text">LYX-DEV</span>
+            <div class="logo-icon-wrapper">
+              <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 20L4 28L12 36" stroke="CurrentColor" stroke-width="4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M28 4L36 12L28 20" stroke="CurrentColor" stroke-width="4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M19 6L21 34" stroke="CurrentColor" stroke-width="4" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="logo-text-wrapper">
+              <span class="logo-title">LYX</span>
+              <span class="logo-dot">.</span>
+              <span class="logo-suffix">DEV</span>
+            </div>
           </div>
           <el-menu :default-active="activeIndex" mode="horizontal" class="nav-menu" @select="handleSelect"
             :ellipsis="false">
@@ -81,11 +94,66 @@ const handleSelect = (key: string) => {
 
   .logo {
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s ease;
 
-    .logo-text {
-      font-size: 1.5rem;
-      font-weight: bold;
+    &:hover {
+      transform: translateY(-1px);
+
+      .logo-icon {
+        filter: drop-shadow(0 0 8px var(--el-color-primary-light-5));
+      }
+    }
+
+    .logo-icon-wrapper {
+      width: 38px;
+      height: 38px;
+      padding: 4px;
+      border-radius: 8px;
+      background: var(--el-color-primary-light-9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .dark & {
+        background: var(--el-color-primary-dark-2);
+      }
+    }
+
+    .logo-icon {
+      width: 100%;
+      height: 100%;
+      stroke: var(--el-color-primary);
+    }
+
+    .logo-text-wrapper {
+      display: flex;
+      align-items: baseline;
+      line-height: 1;
+      font-family: 'JetBrains Mono', monospace, sans-serif;
+    }
+
+    .logo-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--el-text-color-primary);
+      letter-spacing: -1px;
+    }
+
+    .logo-dot {
       color: var(--el-color-primary);
+      font-weight: bold;
+      margin: 0 2px;
+      font-size: 1.5rem;
+    }
+
+    .logo-suffix {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--el-text-color-secondary);
+      letter-spacing: 1px;
     }
   }
 
