@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ArrowLeft } from '@element-plus/icons-vue'
-import { shallowRef, watchEffect } from 'vue'
+import { computed, nextTick, shallowRef, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { applySeo } from '@/seo/head'
+import postsIndex from '@/data/posts.index.json'
 
 const route = useRoute()
 const router = useRouter()
@@ -11,37 +12,159 @@ const modules = import.meta.glob('@/data/posts/*.md')
 
 const postComponent = shallowRef<any>(null)
 const error = shallowRef(false)
+const frontmatter = shallowRef<Record<string, any>>({})
+const contentEl = shallowRef<HTMLElement | null>(null)
+
+type TocItem = { id: string; text: string; level: number }
+const toc = shallowRef<TocItem[]>([])
+
+type PostMeta = { id: string; title: string; date: string; description: string; tags: string[] }
+const allPosts = computed<PostMeta[]>(() => {
+  return (Array.isArray(postsIndex) ? postsIndex : [])
+    .map((p: any) => ({
+      id: typeof p?.id === 'string' ? p.id : '',
+      title: typeof p?.title === 'string' ? p.title : 'Untitled',
+      date: typeof p?.date === 'string' ? p.date : '',
+      description: typeof p?.description === 'string' ? p.description : '',
+      tags: Array.isArray(p?.tags) ? p.tags.filter((t: any) => typeof t === 'string') : [],
+    }))
+    .filter((p) => !!p.id)
+})
+
+const title = computed(() => {
+  const v = frontmatter.value?.title
+  return typeof v === 'string' ? v : ''
+})
+
+const description = computed(() => {
+  const v = frontmatter.value?.description
+  return typeof v === 'string' ? v : ''
+})
+
+const tags = computed(() => {
+  const v = frontmatter.value?.tags
+  return Array.isArray(v) ? v.filter((t) => typeof t === 'string') : []
+})
+
+const dateText = computed(() => {
+  const raw = frontmatter.value?.date
+  if (typeof raw !== 'string' || !raw) return ''
+  const d = new Date(raw)
+  if (Number.isNaN(d.getTime())) return raw
+  return d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })
+})
+
+const currentId = computed(() => {
+  const raw = route.params.id
+  if (Array.isArray(raw)) return raw[0] || ''
+  return typeof raw === 'string' ? raw : ''
+})
+
+const currentIndex = computed(() => allPosts.value.findIndex((p) => p.id === currentId.value))
+const prevPost = computed(() => (currentIndex.value > 0 ? allPosts.value[currentIndex.value - 1] : null))
+const nextPost = computed(() =>
+  currentIndex.value >= 0 && currentIndex.value < allPosts.value.length - 1
+    ? allPosts.value[currentIndex.value + 1]
+    : null,
+)
+
+const goToPost = (id: string) => {
+  router.push(`/blog/${id}`)
+}
+
+const slugifyHeading = (text: string) => {
+  const base = text
+    .trim()
+    .toLowerCase()
+    .replace(/[\u200B-\u200D\uFEFF]/g, '')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+  return base
+}
+
+const buildToc = () => {
+  const root = contentEl.value
+  if (!root) {
+    toc.value = []
+    return
+  }
+
+  const headings = Array.from(root.querySelectorAll('.markdown-body h2, .markdown-body h3')) as HTMLElement[]
+  const used = new Map<string, number>()
+  const items: TocItem[] = []
+
+  for (const el of headings) {
+    const level = el.tagName === 'H3' ? 3 : 2
+    const text = (el.textContent || '').trim()
+    if (!text) continue
+
+    let id = el.id || slugifyHeading(text)
+    if (!id) id = `section`
+
+    const seen = used.get(id) || 0
+    used.set(id, seen + 1)
+    if (seen > 0) id = `${id}-${seen + 1}`
+
+    el.id = id
+    items.push({ id, text, level })
+  }
+
+  toc.value = items
+}
 
 // 动态加载 Markdown 组件
-watchEffect(async () => {
-  const id = route.params.id
+watchEffect((onCleanup) => {
+  let cancelled = false
+  onCleanup(() => {
+    cancelled = true
+  })
+
+  const id = currentId.value
   if (!id) return
 
   const path = `/src/data/posts/${id}.md`
   const importer = modules[path]
+
+  error.value = false
+  postComponent.value = null
+  frontmatter.value = {}
+  toc.value = []
 
   if (!importer) {
     error.value = true
     return
   }
 
-  try {
-    const comp = await importer()
-    postComponent.value = (comp as any).default
+  ;(async () => {
+    try {
+      const comp = await importer()
+      if (cancelled) return
 
-    const fm = (comp as any).frontmatter || (postComponent.value as any)?.frontmatter || {}
-    const fmTitle = typeof fm.title === 'string' ? fm.title : undefined
-    const fmDesc = typeof fm.description === 'string' ? fm.description : undefined
+      postComponent.value = (comp as any).default
 
-    applySeo({
-      title: fmTitle ? `${fmTitle} | 博客 | LYX.DEV` : undefined,
-      description: fmDesc,
-      canonicalPath: `/blog/${id}`,
-    })
-  } catch (e) {
-    console.error(e)
-    error.value = true
-  }
+      const fm = (comp as any).frontmatter || (postComponent.value as any)?.frontmatter || {}
+      frontmatter.value = fm && typeof fm === 'object' ? fm : {}
+      const fmTitle = typeof frontmatter.value.title === 'string' ? frontmatter.value.title : undefined
+      const fmDesc = typeof frontmatter.value.description === 'string' ? frontmatter.value.description : undefined
+
+      applySeo({
+        title: fmTitle ? `${fmTitle} | 博客 | LYX.DEV` : undefined,
+        description: fmDesc,
+        canonicalPath: `/blog/${id}`,
+        type: 'article',
+      })
+
+      await nextTick()
+      if (cancelled) return
+      buildToc()
+    } catch (e) {
+      console.error(e)
+      if (cancelled) return
+      error.value = true
+    }
+  })()
 })
 
 const goBack = () => {
@@ -57,10 +180,35 @@ const goBack = () => {
       <el-empty description="文章未找到或加载失败" />
     </div>
 
-    <article v-else-if="postComponent" class="markdown-body">
-      <!-- 渲染 Markdown 组件 -->
-      <!-- Markdown 组件通常自带 frontmatter，如果需要在外部显示标题可读取 postComponent.frontmatter -->
-      <component :is="postComponent" />
+    <article v-else-if="postComponent" class="post" ref="contentEl">
+      <header class="post-header">
+        <h1 class="post-title" v-if="title">{{ title }}</h1>
+        <p class="post-desc" v-if="description">{{ description }}</p>
+        <div class="post-meta" v-if="dateText || tags.length">
+          <span class="post-date" v-if="dateText">{{ dateText }}</span>
+          <span class="post-tags" v-if="tags.length">
+            <el-tag v-for="tag in tags" :key="tag" size="small" effect="plain">{{ tag }}</el-tag>
+          </span>
+        </div>
+      </header>
+
+      <el-card v-if="toc.length" class="toc" shadow="never">
+        <div class="toc-title">目录</div>
+        <div class="toc-list">
+          <a v-for="item in toc" :key="item.id" class="toc-link" :class="{ h3: item.level === 3 }" :href="`#${item.id}`">
+            {{ item.text }}
+          </a>
+        </div>
+      </el-card>
+
+      <div class="markdown-body">
+        <component :is="postComponent" />
+      </div>
+
+      <div class="post-nav" v-if="prevPost || nextPost">
+        <el-button v-if="prevPost" plain @click="goToPost(prevPost.id)">上一篇：{{ prevPost.title }}</el-button>
+        <el-button v-if="nextPost" plain @click="goToPost(nextPost.id)">下一篇：{{ nextPost.title }}</el-button>
+      </div>
     </article>
 
     <el-skeleton v-else :rows="10" animated />
@@ -76,6 +224,84 @@ const goBack = () => {
 
   .back-btn {
     margin-bottom: 2rem;
+  }
+}
+
+.post {
+  .post-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--el-border-color);
+  }
+
+  .post-title {
+    margin: 0 0 0.5rem;
+    font-size: 2rem;
+    letter-spacing: 0.2px;
+    color: var(--el-text-color-primary);
+  }
+
+  .post-desc {
+    margin: 0 0 0.75rem;
+    color: var(--el-text-color-regular);
+    line-height: 1.7;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    color: var(--el-text-color-secondary);
+    font-size: 0.9rem;
+  }
+
+  .post-tags {
+    display: inline-flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .toc {
+    margin: 1rem 0 1.25rem;
+    border-radius: 12px;
+    background: var(--el-fill-color-lighter);
+  }
+
+  .toc-title {
+    font-weight: 600;
+    color: var(--el-text-color-primary);
+    margin-bottom: 8px;
+  }
+
+  .toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .toc-link {
+    color: var(--el-text-color-regular);
+    text-decoration: none;
+    line-height: 1.5;
+  }
+
+  .toc-link:hover {
+    color: var(--el-color-primary);
+    text-decoration: underline;
+  }
+
+  .toc-link.h3 {
+    padding-left: 14px;
+    font-size: 0.95em;
+  }
+
+  .post-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
   }
 }
 

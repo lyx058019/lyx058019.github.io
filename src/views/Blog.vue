@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { Calendar } from '@element-plus/icons-vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import postsIndex from '@/data/posts.index.json'
 
 const router = useRouter()
 
-// Eager load all meta data
-// unplugin-vue-markdown allows importing frontmatter
-const modules = import.meta.glob('@/data/posts/*.md', { eager: true })
-
 interface Post {
-  path: string
   id: string
   title: string
   date: string
@@ -17,19 +14,54 @@ interface Post {
   tags: string[]
 }
 
-const posts: Post[] = Object.entries(modules).map(([path, mod]: [string, any]) => {
-  // path like /src/data/posts/hello-world.md
-  const id = path.split('/').pop()?.replace('.md', '') || ''
-  const fm = mod.frontmatter || {}
-  return {
-    path,
-    id,
-    title: fm.title || 'Untitled',
-    date: fm.date || '',
-    description: fm.description || '',
-    tags: fm.tags || []
+const posts: Post[] = (Array.isArray(postsIndex) ? postsIndex : [])
+  .map((p: any) => ({
+    id: typeof p?.id === 'string' ? p.id : '',
+    title: typeof p?.title === 'string' ? p.title : 'Untitled',
+    date: typeof p?.date === 'string' ? p.date : '',
+    description: typeof p?.description === 'string' ? p.description : '',
+    tags: Array.isArray(p?.tags) ? p.tags.filter((t: any) => typeof t === 'string') : [],
+  }))
+  .filter((p) => !!p.id)
+
+const query = ref('')
+const activeTags = ref<string[]>([])
+
+const allTags = computed(() => {
+  const set = new Set<string>()
+  for (const p of posts) {
+    for (const t of p.tags || []) {
+      if (typeof t === 'string' && t.trim()) set.add(t)
+    }
   }
-}).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  return Array.from(set).sort((a, b) => a.localeCompare(b))
+})
+
+const filteredPosts = computed(() => {
+  const q = query.value.trim().toLowerCase()
+  const tags = activeTags.value
+
+  return posts.filter((p) => {
+    if (q) {
+      const hay = `${p.title || ''} ${p.description || ''}`.toLowerCase()
+      if (!hay.includes(q)) return false
+    }
+    if (tags.length) {
+      const postTags = Array.isArray(p.tags) ? p.tags : []
+      for (const t of tags) {
+        if (!postTags.includes(t)) return false
+      }
+    }
+    return true
+  })
+})
+
+const formatDate = (raw: string) => {
+  if (!raw) return ''
+  const d = new Date(raw)
+  if (Number.isNaN(d.getTime())) return raw
+  return d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })
+}
 
 const goToPost = (id: string) => {
   router.push(`/blog/${id}`)
@@ -43,14 +75,21 @@ const goToPost = (id: string) => {
       <p class="page-subtitle">分享技术、思考与生活</p>
     </div>
 
+    <div class="filters">
+      <el-input v-model="query" clearable placeholder="搜索标题 / 描述" class="search" />
+      <el-select v-model="activeTags" multiple clearable collapse-tags collapse-tags-tooltip placeholder="按标签筛选" class="tags">
+        <el-option v-for="tag in allTags" :key="tag" :label="tag" :value="tag" />
+      </el-select>
+    </div>
+
     <div class="post-list">
-      <el-card v-for="post in posts" :key="post.id" class="post-item" shadow="hover" @click="goToPost(post.id)">
+      <el-card v-for="post in filteredPosts" :key="post.id" class="post-item" shadow="hover" @click="goToPost(post.id)">
         <div class="post-content">
           <h2 class="post-title">{{ post.title }}</h2>
           <div class="post-meta">
             <span class="meta-item"><el-icon>
                 <Calendar />
-              </el-icon> {{ post.date }}</span>
+              </el-icon> {{ formatDate(post.date) }}</span>
             <span class="meta-item" v-if="post.tags.length">
               <el-tag v-for="tag in post.tags" :key="tag" size="small" effect="plain">{{ tag }}</el-tag>
             </span>
@@ -58,6 +97,8 @@ const goToPost = (id: string) => {
           <p class="post-desc">{{ post.description }}</p>
         </div>
       </el-card>
+
+      <el-empty v-if="!filteredPosts.length" description="没有匹配的文章" />
     </div>
   </div>
 </template>
@@ -117,6 +158,34 @@ const goToPost = (id: string) => {
     color: var(--el-text-color-regular);
     line-height: 1.6;
     margin: 0;
+  }
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0 auto 1.5rem;
+  max-width: 800px;
+
+  .search {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .tags {
+    width: 280px;
+  }
+}
+
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+
+    .tags {
+      width: 100%;
+    }
   }
 }
 </style>

@@ -51,6 +51,7 @@ export interface SeoInput {
   path?: string;
   canonicalPath?: string;
   image?: string;
+  type?: string;
   noindex?: boolean;
 }
 
@@ -64,6 +65,7 @@ export function applySeo(input: SeoInput) {
 
   const url = toAbsoluteUrl(canonicalPath);
   const image = toAbsoluteUrl(input.image || DEFAULT_OG_IMAGE);
+  const type = (input.type || "website").trim() || "website";
 
   document.title = title;
 
@@ -84,7 +86,7 @@ export function applySeo(input: SeoInput) {
   }
 
   ensureMetaByProperty("og:site_name").setAttribute("content", SITE_NAME);
-  ensureMetaByProperty("og:type").setAttribute("content", "website");
+  ensureMetaByProperty("og:type").setAttribute("content", type);
   ensureMetaByProperty("og:title").setAttribute("content", title);
   ensureMetaByProperty("og:description").setAttribute("content", description);
   ensureMetaByProperty("og:url").setAttribute("content", url);
