@@ -9,6 +9,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MainLayout from "../layout/MainLayout.vue";
 import Home from "../views/Home.vue";
+import { applySeoFromRouteMeta } from "../seo/head";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,21 +22,41 @@ const router = createRouter({
           path: "",
           name: "home",
           component: Home,
+          meta: {
+            title: "LYX.DEV | 前端工程化与工具箱",
+            description: "lyx058019 的个人网站：博客、项目与在线工具箱。",
+            canonicalPath: "/",
+          },
         },
         {
           path: "projects",
           name: "projects",
           component: () => import("../views/Projects.vue"),
+          meta: {
+            title: "项目 | LYX.DEV",
+            description: "项目作品与技术栈概览。",
+            canonicalPath: "/projects",
+          },
         },
         {
           path: "blog",
           name: "blog",
           component: () => import("../views/Blog.vue"),
+          meta: {
+            title: "博客 | LYX.DEV",
+            description: "记录技术与思考，包含前端工程化、Vue、TypeScript 等主题。",
+            canonicalPath: "/blog",
+          },
         },
         {
           path: "/tools",
           name: "tools",
           component: () => import("../views/Tools.vue"),
+          meta: {
+            title: "工具箱 | LYX.DEV",
+            description: "在线开发者工具箱：JSON、Base64、URL、Hash、二维码、时间戳、UUID 等。",
+            canonicalPath: "/tools",
+          },
         },
         {
           path: "/tools/base64",
@@ -86,15 +107,28 @@ const router = createRouter({
           path: "blog/:id",
           name: "blog-post",
           component: () => import("../views/BlogPost.vue"),
+          meta: {
+            title: "博客文章 | LYX.DEV",
+            description: "博客文章详情。",
+          },
         },
         {
           path: "about",
           name: "about",
           component: () => import("../views/About.vue"),
+          meta: {
+            title: "关于 | LYX.DEV",
+            description: "关于 lyx058019：经历、技能与联系方式。",
+            canonicalPath: "/about",
+          },
         },
       ],
     },
   ],
+});
+
+router.afterEach((to) => {
+  applySeoFromRouteMeta(to);
 });
 
 export default router;

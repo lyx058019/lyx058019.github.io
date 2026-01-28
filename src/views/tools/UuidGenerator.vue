@@ -24,7 +24,8 @@ const pwResult = ref('')
 const generateUuid = () => {
   const arr = []
   for (let i = 0; i < uuidCount.value; i++) {
-    let uuid = crypto.randomUUID()
+    // crypto.randomUUID() is typed as a template-literal UUID; force string so we can transform it.
+    let uuid: string = crypto.randomUUID()
     if (!uuidHyphens.value) {
       uuid = uuid.replace(/-/g, '')
     }
@@ -59,7 +60,11 @@ const generatePassword = () => {
   const arr = []
   for (let i = 0; i < pwCount.value; i++) {
     let pass = ''
-    const cryptoObj = window.crypto || window.msCrypto
+    const cryptoObj = globalThis.crypto
+    if (!cryptoObj?.getRandomValues) {
+      pwResult.value = '当前环境不支持安全随机数 (crypto.getRandomValues)'
+      return
+    }
     const randomValues = new Uint32Array(pwLength.value)
     cryptoObj.getRandomValues(randomValues)
 

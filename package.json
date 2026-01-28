@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "seo:gen": "node scripts/generate-seo.mjs",
+    "build": "npm run seo:gen && vue-tsc && vite build",
     "preview": "vite preview",
     "test": "vitest"
   },

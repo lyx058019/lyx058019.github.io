@@ -8,3 +8,6 @@ dist-ssr
 *.log
 package-lock.json
 yarn.lock
+
+public/rss.xml
+public/sitemap.xml

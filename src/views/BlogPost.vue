@@ -2,6 +2,7 @@
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { shallowRef, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { applySeo } from '@/seo/head'
 
 const route = useRoute()
 const router = useRouter()
@@ -27,6 +28,16 @@ watchEffect(async () => {
   try {
     const comp = await importer()
     postComponent.value = (comp as any).default
+
+    const fm = (comp as any).frontmatter || (postComponent.value as any)?.frontmatter || {}
+    const fmTitle = typeof fm.title === 'string' ? fm.title : undefined
+    const fmDesc = typeof fm.description === 'string' ? fm.description : undefined
+
+    applySeo({
+      title: fmTitle ? `${fmTitle} | 博客 | LYX.DEV` : undefined,
+      description: fmDesc,
+      canonicalPath: `/blog/${id}`,
+    })
   } catch (e) {
     console.error(e)
     error.value = true
