@@ -1,0 +1,19 @@
+name: System Guard
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Run system reminder demo (dangerous example)
+        run: node scripts/system_reminder.js "git push --force" || true
+      - name: Run system guard demo
+        run: node scripts/guard-demo.mjs || true

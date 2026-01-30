@@ -10,7 +10,9 @@
     "build": "npm run posts:index && npm run seo:gen && vue-tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "system-reminder:demo": "node scripts/system_reminder.js 'git push --force'"
+    "system-reminder:demo": "node scripts/system_reminder.js 'git push --force'",
+    "guard-demo": "node scripts/guard-demo.mjs",
+    "guard-api": "node scripts/guard-api.mjs"
   },
   "keywords": [],
   "author": "",

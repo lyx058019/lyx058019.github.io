@@ -49,7 +49,7 @@ const router = createRouter({
           },
         },
         {
-          path: "/tools",
+          path: "tools",
           name: "tools",
           component: () => import("../views/Tools.vue"),
           meta: {
@@ -59,47 +59,47 @@ const router = createRouter({
           },
         },
         {
-          path: "/tools/base64",
+          path: "tools/base64",
           name: "tool-base64",
           component: () => import("../views/tools/Base64Converter.vue"),
         },
         {
-          path: "/tools/json",
+          path: "tools/json",
           name: "tool-json",
           component: () => import("../views/tools/JsonFormatter.vue"),
         },
         {
-          path: "/tools/image",
+          path: "tools/image",
           name: "tool-image",
           component: () => import("../views/tools/ImageEditor.vue"),
         },
         {
-          path: "/tools/uuid",
+          path: "tools/uuid",
           name: "tool-uuid",
           component: () => import("../views/tools/UuidGenerator.vue"),
         },
         {
-          path: "/tools/timestamp",
+          path: "tools/timestamp",
           name: "tool-timestamp",
           component: () => import("../views/tools/TimestampConverter.vue"),
         },
         {
-          path: "/tools/qrcode",
+          path: "tools/qrcode",
           name: "tool-qrcode",
           component: () => import("../views/tools/QrCodeGenerator.vue"),
         },
         {
-          path: "/tools/url",
+          path: "tools/url",
           name: "tool-url",
           component: () => import("../views/tools/UrlEncoder.vue"),
         },
         {
-          path: "/tools/hash",
+          path: "tools/hash",
           name: "tool-hash",
           component: () => import("../views/tools/HashCalculator.vue"),
         },
         {
-          path: "/tools/color",
+          path: "tools/color",
           name: "tool-color",
           component: () => import("../views/tools/ColorConverter.vue"),
         },

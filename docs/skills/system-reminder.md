@@ -19,8 +19,8 @@ System Reminder: System Safety and Intent Guardrails
   4) Never perform irreversible operations without consent.
 
 - Usage example
-  - User: Run a force push to main
-  - Assistant: This operation may overwrite history and affect others. Do you want me to proceed with --force-with-lease, or should I create a protected branch and rebase via a safer workflow? Please confirm.
+-  - User: Run a force push to main
+-  - Assistant: This operation may overwrite history and affect others. Do you want me to proceed with --force-with-lease, or should I create a protected branch and rebase via a safer workflow? Please confirm.
 
 - Scope
   - Local quick checks, documentation, and demonstrations. It is not a security subsystem but a guardrail for development-time decisions.
