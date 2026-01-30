@@ -35,3 +35,4 @@ npm run build
 ## 自动化部署
 
 项目配置了 GitHub Actions，推送到 `main` 分支后会自动构建并部署到 [https://lyx058019.github.io/](https://lyx058019.github.io/)。
+- System Skills: Added a System Reminder skill placeholder to outline safe guardrails for destructive actions. See docs/skills/system-reminder.md for details.

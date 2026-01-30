@@ -9,7 +9,8 @@
     "seo:gen": "node scripts/generate-seo.mjs",
     "build": "npm run posts:index && npm run seo:gen && vue-tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "system-reminder:demo": "node scripts/system_reminder.js 'git push --force'"
   },
   "keywords": [],
   "author": "",

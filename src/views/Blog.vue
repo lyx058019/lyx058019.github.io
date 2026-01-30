@@ -12,6 +12,7 @@ interface Post {
   date: string
   description: string
   tags: string[]
+  readingTime?: string
 }
 
 const posts: Post[] = (Array.isArray(postsIndex) ? postsIndex : [])
@@ -21,6 +22,7 @@ const posts: Post[] = (Array.isArray(postsIndex) ? postsIndex : [])
     date: typeof p?.date === 'string' ? p.date : '',
     description: typeof p?.description === 'string' ? p.description : '',
     tags: Array.isArray(p?.tags) ? p.tags.filter((t: any) => typeof t === 'string') : [],
+    readingTime: typeof p?.readingTime === 'string' ? p.readingTime : undefined,
   }))
   .filter((p) => !!p.id)
 
@@ -88,11 +90,12 @@ const goToPost = (id: string) => {
           <h2 class="post-title">{{ post.title }}</h2>
           <div class="post-meta">
             <span class="meta-item"><el-icon>
-                <Calendar />
+              <Calendar />
               </el-icon> {{ formatDate(post.date) }}</span>
             <span class="meta-item" v-if="post.tags.length">
               <el-tag v-for="tag in post.tags" :key="tag" size="small" effect="plain">{{ tag }}</el-tag>
             </span>
+            <span class="meta-item" v-if="post.readingTime">（{{ post.readingTime }}）</span>
           </div>
           <p class="post-desc">{{ post.description }}</p>
         </div>
