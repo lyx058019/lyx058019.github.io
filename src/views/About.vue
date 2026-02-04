@@ -5,26 +5,53 @@
         <div class="avatar-container">
           <el-avatar :size="200" src="https://via.placeholder.com/200" />
           <h2>lyx058019</h2>
-          <p>全栈开发工程师</p>
+          <p>开发者 · 工程化 · 用户体验</p>
         </div>
       </el-col>
       <el-col :md="14" :xs="24">
         <div class="bio">
           <h3>关于我</h3>
           <p>
-            我是一名热爱技术的开发者，专注于构建高效、可扩展且用户友好的 Web
-            应用。拥有多年的前端开发经验，精通 Vue 生态系统，并对工程化实践有深入理解。
+            这里主要记录我正在做的事情：持续维护个人站点、沉淀可复用的工具、把工程化与可维护性
+            当作长期投入。
           </p>
-          <h3>教育背景</h3>
-          <el-timeline>
-            <el-timeline-item timestamp="2020 - 2024" placement="top">
-              <h4>计算机科学与技术</h4>
-              <p>某某大学 · 学士学位</p>
-            </el-timeline-item>
-          </el-timeline>
+          <h3>我关注的方向</h3>
+          <el-row :gutter="12" class="focus">
+            <el-col :xs="24" :sm="12">
+              <el-card shadow="never" class="focus-card">
+                <h4>前端工程化</h4>
+                <p>类型约束、脚本化产物、构建与发布流程，让项目可持续增长。</p>
+              </el-card>
+            </el-col>
+            <el-col :xs="24" :sm="12">
+              <el-card shadow="never" class="focus-card">
+                <h4>用户体验</h4>
+                <p>信息密度、交互路径、可访问性与一致性细节，让页面更“顺手”。</p>
+              </el-card>
+            </el-col>
+            <el-col :xs="24" :sm="12">
+              <el-card shadow="never" class="focus-card">
+                <h4>工具沉淀</h4>
+                <p>把高频需求做成可复用的小工具，减少重复劳动。</p>
+              </el-card>
+            </el-col>
+            <el-col :xs="24" :sm="12">
+              <el-card shadow="never" class="focus-card">
+                <h4>内容写作</h4>
+                <p>用博客记录实践过程：为什么这么做、踩过什么坑、如何复盘。</p>
+              </el-card>
+            </el-col>
+          </el-row>
+
+          <h3>站点说明</h3>
+          <p>
+            本站包含博客、项目与工具箱。博客内容使用 Markdown 编写，并在构建时生成文章索引以及
+            sitemap/rss，方便检索与订阅。
+          </p>
+
           <h3>联系方式</h3>
-          <p>Email: example@mail.com</p>
-          <p>Location: Shanghai, China</p>
+          <p>Email：<span class="placeholder">（可在此处替换为你的邮箱）</span></p>
+          <p>GitHub：<el-link href="https://github.com/lyx058019" target="_blank" :underline="false">@lyx058019</el-link></p>
         </div>
       </el-col>
     </el-row>
@@ -48,6 +75,30 @@
   }
   p {
     line-height: 1.8;
+    color: var(--el-text-color-regular);
+  }
+
+  .placeholder {
+    color: var(--el-text-color-secondary);
+  }
+}
+
+.focus {
+  margin-top: 0.5rem;
+}
+
+.focus-card {
+  border-radius: 12px;
+  background: var(--el-fill-color-lighter);
+
+  h4 {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+    color: var(--el-text-color-primary);
+  }
+
+  p {
+    margin: 0;
     color: var(--el-text-color-regular);
   }
 }

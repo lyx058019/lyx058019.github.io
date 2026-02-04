@@ -1,5 +1,38 @@
 [
   {
+    "id": "frontend-engineering-checklist",
+    "title": "前端工程化自检清单（个人项目）",
+    "date": "2026-01-26",
+    "description": "一个偏实用的 checklist：类型、构建、测试、代码质量、发布与可维护性。",
+    "tags": [
+      "工程化",
+      "TypeScript",
+      "质量"
+    ]
+  },
+  {
+    "id": "seo-sitemap-rss",
+    "title": "网站 SEO 基础：Sitemap 与 RSS",
+    "date": "2026-01-25",
+    "description": "用构建脚本从 Markdown frontmatter 生成 sitemap.xml 与 rss.xml，让搜索与订阅更可靠。",
+    "tags": [
+      "SEO",
+      "RSS",
+      "Sitemap"
+    ]
+  },
+  {
+    "id": "markdown-blog-vue-vite",
+    "title": "用 Markdown 搭一个轻量博客（Vue + Vite）",
+    "date": "2026-01-24",
+    "description": "记录一个最小可用的 Markdown 博客：路由、frontmatter、按需加载与目录生成。",
+    "tags": [
+      "Vue",
+      "Vite",
+      "Markdown"
+    ]
+  },
+  {
     "id": "hello-world",
     "title": "我的第一篇博客文章",
     "date": "2026-01-22",
