@@ -1,12 +1,23 @@
 <script setup lang="ts">
+import postsIndex from '@/data/posts.index.json'
+import { applySeo } from '@/seo/head'
 import { ArrowLeft } from '@element-plus/icons-vue'
+import { useScroll } from '@vueuse/core'
 import { computed, nextTick, shallowRef, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { applySeo } from '@/seo/head'
-import postsIndex from '@/data/posts.index.json'
 
 const route = useRoute()
 const router = useRouter()
+const { y } = useScroll(window) // 监听页面滚动
+
+// 计算阅读进度
+const scrollProgress = computed(() => {
+  const el = document.documentElement
+  const scrollTop = y.value
+  const scrollHeight = el.scrollHeight - el.clientHeight
+  if (scrollHeight <= 0) return 0
+  return Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100))
+})
 // 必须与实际文件路径匹配，使用 absolute path pattern 或 relative to root
 const modules = import.meta.glob('@/data/posts/*.md')
 
@@ -142,7 +153,7 @@ watchEffect((onCleanup) => {
     return
   }
 
-  ;(async () => {
+  ; (async () => {
     try {
       const comp = await importer()
       if (cancelled) return
@@ -185,197 +196,666 @@ const goBack = () => {
 
 <template>
   <div class="blog-post-view">
-    <el-button @click="goBack" :icon="ArrowLeft" plain class="back-btn">返回列表</el-button>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress-bar" :style="{ transform: `scaleX(${scrollProgress / 100})` }"></div>
 
     <div v-if="error" class="error-state">
-      <el-empty description="文章未找到或加载失败" />
+      <el-empty description="文章加载失败或不存在" />
+      <el-button @click="goBack">返回列表</el-button>
     </div>
 
-    <article v-else-if="postComponent" class="post" ref="contentEl">
+    <div v-else class="post-layout">
+      <!-- Left Sidebar (Desktop) -->
+      <aside class="post-sidebar desktop-only">
+        <div class="sidebar-sticky">
+          <div class="sidebar-back" @click="goBack">
+            <el-icon>
+              <ArrowLeft />
+            </el-icon>
+            <span>Back</span>
+          </div>
+          <div class="sidebar-toc" v-if="toc.length">
+            <div class="toc-title">ON THIS PAGE</div>
+            <ul class="toc-list">
+              <li v-for="item in toc" :key="item.id" :class="['toc-item', `level-${item.level}`]"
+                @click="router.push(`#${item.id}`)">
+                <a :href="`#${item.id}`">{{ item.text }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <article class="post-content">
         <header class="post-header">
-          <h1 class="post-title" v-if="title">{{ title }}</h1>
-          <p class="post-desc" v-if="description">{{ description }}</p>
-          <div class="post-meta" v-if="dateText || tags.length || readingTime">
-            <span class="post-date" v-if="dateText">{{ dateText }}</span>
-            <span class="post-reading" v-if="readingTime">（{{ readingTime }}）</span>
-            <span class="post-tags" v-if="tags.length">
-            <el-tag v-for="tag in tags" :key="tag" size="small" effect="plain">{{ tag }}</el-tag>
-          </span>
+          <div class="post-meta">
+            <span class="meta-item date">{{ dateText }}</span>
+            <span class="meta-item dot">·</span>
+            <span class="meta-item read-time">{{ readingTime }}</span>
+          </div>
+          <h1 class="post-title">{{ title }}</h1>
+          <div class="post-tags">
+            <el-tag v-for="tag in tags" :key="tag" class="pk-tag">{{ tag }}</el-tag>
+          </div>
+        </header>
+
+        <!-- Mobile TOC -->
+        <div class="mobile-toc mobile-only" v-if="toc.length">
+          <el-collapse>
+            <el-collapse-item name="1">
+              <template #title>
+                <span class="mobile-toc-title">目录导航</span>
+              </template>
+              <ul class="toc-list">
+                <li v-for="item in toc" :key="item.id" :class="['toc-item', `level-${item.level}`]"
+                  @click="router.push(`#${item.id}`)">
+                  <a :href="`#${item.id}`">{{ item.text }}</a>
+                </li>
+              </ul>
+            </el-collapse-item>
+          </el-collapse>
         </div>
-      </header>
 
-      <el-card v-if="toc.length" class="toc" shadow="never">
-        <div class="toc-title">目录</div>
-        <div class="toc-list">
-          <a v-for="item in toc" :key="item.id" class="toc-link" :class="{ h3: item.level === 3 }" :href="`#${item.id}`">
-            {{ item.text }}
-          </a>
+        <div class="markdown-body" ref="contentEl">
+          <component :is="postComponent" />
         </div>
-      </el-card>
 
-      <div class="markdown-body">
-        <component :is="postComponent" />
-      </div>
+        <div class="post-footer">
+          <div class="post-nav">
+            <div class="nav-prev" v-if="prevPost" @click="goToPost(prevPost.id)">
+              <span class="nav-label">Previous</span>
+              <span class="nav-title">{{ prevPost.title }}</span>
+            </div>
+            <div class="nav-next" v-if="nextPost" @click="goToPost(nextPost.id)">
+              <span class="nav-label">Next</span>
+              <span class="nav-title">{{ nextPost.title }}</span>
+            </div>
+          </div>
+        </div>
+      </article>
 
-      <div class="post-nav" v-if="prevPost || nextPost">
-        <el-button v-if="prevPost" plain @click="goToPost(prevPost.id)">上一篇：{{ prevPost.title }}</el-button>
-        <el-button v-if="nextPost" plain @click="goToPost(nextPost.id)">下一篇：{{ nextPost.title }}</el-button>
-      </div>
-    </article>
-
-    <el-skeleton v-else :rows="10" animated />
+      <!-- Right Safe Area / Mobile TOC placeholder if needed -->
+    </div>
   </div>
 </template>
 
-<style lang="scss">
-// 修复 PrismJS 在深色模式下的背景，或者自定义 markdown 样式
+<style scoped lang="scss">
+/* Swiss / Pro Max Style */
 .blog-post-view {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-
-  .back-btn {
-    margin-bottom: 2rem;
-  }
+  min-height: 100vh;
+  padding-bottom: 80px;
 }
 
-.post {
-  .post-header {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--el-border-color);
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--pk-color-primary);
+  transform-origin: 0 50%;
+  z-index: 2000;
+  transition: transform 0.1s ease-out;
+}
+
+.post-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 60px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  align-items: start;
+}
+
+/* Sidebar */
+.post-sidebar.desktop-only {
+  display: block;
+
+  .sidebar-sticky {
+    position: sticky;
+    top: 100px;
   }
 
-  .post-title {
-    margin: 0 0 0.5rem;
-    font-size: 2rem;
-    letter-spacing: 0.2px;
-    color: var(--el-text-color-primary);
-  }
-
-  .post-desc {
-    margin: 0 0 0.75rem;
-    color: var(--el-text-color-regular);
-    line-height: 1.7;
-  }
-
-  .post-meta {
+  .sidebar-back {
     display: flex;
     align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    color: var(--el-text-color-secondary);
-    font-size: 0.9rem;
-  }
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--pk-color-text-secondary);
+    margin-bottom: 40px;
+    transition: color 0.2s;
 
-  .post-tags {
-    display: inline-flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .toc {
-    margin: 1rem 0 1.25rem;
-    border-radius: 12px;
-    background: var(--el-fill-color-lighter);
+    &:hover {
+      color: var(--pk-color-primary);
+    }
   }
 
   .toc-title {
-    font-weight: 600;
-    color: var(--el-text-color-primary);
-    margin-bottom: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--pk-color-text-primary);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
   }
 
   .toc-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid var(--pk-border-color);
 
-  .toc-link {
-    color: var(--el-text-color-regular);
-    text-decoration: none;
-    line-height: 1.5;
-  }
+    .toc-item {
+      padding-left: 16px;
+      margin-bottom: 12px;
 
-  .toc-link:hover {
-    color: var(--el-color-primary);
-    text-decoration: underline;
-  }
+      &.level-3 {
+        padding-left: 32px;
+        font-size: 0.9em;
+      }
 
-  .toc-link.h3 {
-    padding-left: 14px;
-    font-size: 0.95em;
-  }
+      a {
+        text-decoration: none;
+        color: var(--pk-color-text-secondary);
+        font-size: 0.9rem;
+        display: block;
+        transition: color 0.2s;
 
-  .post-nav {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: 1.5rem;
-    flex-wrap: wrap;
+        &:hover {
+          color: var(--pk-color-primary);
+        }
+      }
+    }
   }
 }
 
-// 简单的 Markdown 样式增强，由于 unplugin-vue-markdown 生成的是原生 HTML
-// 你可能需要引入 github-markdown-css 或类似的库，这里简单写一点
-.markdown-body {
+/* Header */
+.post-header {
+  margin-bottom: 40px;
+  text-align: left;
+
+  .post-meta {
+    font-size: 0.95rem;
+    color: var(--pk-color-text-secondary);
+    margin-bottom: 16px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+
+    .dot {
+      margin: 0 8px;
+    }
+
+    .date {
+      font-weight: 600;
+      color: var(--pk-color-primary);
+    }
+  }
+
+  .post-title {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -0.04em;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 8px;
+
+    .pk-tag {
+      background: transparent;
+      border: 1px solid var(--pk-border-color);
+      color: var(--pk-color-text-primary);
+      border-radius: 4px;
+      font-weight: 500;
+    }
+  }
+}
+
+.mobile-toc {
+  margin-bottom: 40px;
+  border: 1px solid var(--pk-border-color);
+  border-radius: var(--border-radius-sm);
+
+  :deep(.el-collapse-item__header) {
+    padding: 0 16px;
+    font-weight: 700;
+  }
+
+  :deep(.el-collapse-item__content) {
+    padding: 16px;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .toc-item {
+      margin-bottom: 8px;
+
+      a {
+        text-decoration: none;
+        color: var(--pk-color-text-primary);
+        font-size: 0.9rem;
+      }
+
+      &.level-3 {
+        padding-left: 16px;
+        color: var(--pk-color-text-secondary);
+      }
+    }
+  }
+}
+
+.post-nav {
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 1px solid var(--pk-border-color);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  .nav-prev,
+  .nav-next {
+    flex: 1;
+    border: 1px solid var(--pk-border-color);
+    padding: 24px;
+    border-radius: var(--border-radius-lg);
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      border-color: var(--pk-color-primary);
+    }
+
+    .nav-label {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: var(--pk-color-text-secondary);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      line-height: 1.3;
+    }
+  }
+
+  .nav-next {
+    text-align: right;
+  }
+}
+
+/* Markdown Customization */
+:deep(.markdown-body) {
+  font-size: 1.1rem;
   line-height: 1.8;
-  color: var(--el-text-color-primary);
+  color: var(--pk-color-text-secondary);
 
-  h1,
   h2,
-  h3 {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    color: var(--el-text-color-regular);
-  }
-
-  h1 {
-    font-size: 2.2em;
-    border-bottom: 1px solid var(--el-border-color);
-    padding-bottom: 0.3em;
-  }
-
-  h2 {
-    font-size: 1.8em;
+  h3,
+  h4 {
+    color: var(--pk-color-text-primary);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-top: 2em;
   }
 
   p {
-    margin-bottom: 1.2rem;
-  }
-
-  ul,
-  ol {
-    padding-left: 2rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5em;
   }
 
   a {
-    color: var(--el-color-primary);
+    color: var(--pk-color-primary);
     text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-bottom-color: var(--pk-color-primary);
+    }
   }
 
-  a:hover {
-    text-decoration: underline;
-  }
-
-  blockquote {
-    margin: 1rem 0;
-    padding: 0.5rem 1rem;
-    border-left: 4px solid var(--el-color-primary);
-    background-color: var(--el-fill-color-light);
-    color: var(--el-text-color-secondary);
-  }
-
-  pre[class*="language-"] {
-    border-radius: 8px;
-    margin: 1.5rem 0;
+  pre {
+    background: var(--pk-color-bg);
+    border: 1px solid var(--pk-border-color);
+    border-radius: var(--border-radius-sm);
   }
 
   img {
-    max-width: 100%;
-    border-radius: 8px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
+}
+
+@media (max-width: 900px) {
+  .post-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .post-sidebar.desktop-only {
+    display: none;
+  }
+
+  .post-header .post-title {
+    font-size: 2.2rem;
+  }
+
+  .post-nav {
+    flex-direction: column;
+  }
+
+  .nav-next {
+    text-align: left !important;
+  }
+}
+
+.mobile-only {
+  display: none;
+
+  @media (max-width: 900px) {
+    display: block;
+  }
+}
+</style>
+.post-layout {
+display: flex;
+gap: 60px;
+align-items: flex-start;
+}
+
+.post-main {
+flex: 1;
+min-width: 0;
+
+.back-btn {
+margin-bottom: 20px;
+font-size: 0.95rem;
+color: var(--el-text-color-secondary);
+
+&:hover {
+color: var(--el-color-primary);
+}
+}
+}
+
+.post-sidebar {
+width: 260px;
+flex-shrink: 0;
+position: sticky;
+top: 100px;
+display: none;
+
+@media (min-width: 1024px) {
+display: block;
+}
+}
+
+.toc-container {
+padding: 24px;
+max-height: calc(100vh - 120px);
+overflow-y: auto;
+border-radius: var(--border-radius-lg);
+
+.toc-header {
+font-weight: 800;
+margin-bottom: 20px;
+font-size: 1.1rem;
+padding-bottom: 15px;
+border-bottom: 1px solid var(--el-border-color-lighter);
+color: var(--el-text-color-primary);
+}
+
+.toc-list {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+.toc-link {
+font-size: 0.95rem;
+color: var(--el-text-color-regular);
+text-decoration: none;
+line-height: 1.4;
+transition: all 0.2s;
+border-left: 2px solid transparent;
+padding-left: 12px;
+display: block;
+
+&:hover {
+color: var(--el-color-primary);
+border-left-color: var(--el-color-primary);
+}
+
+&.level-3 {
+padding-left: 28px;
+font-size: 0.9rem;
+color: var(--el-text-color-secondary);
+}
+}
+}
+
+/* Post Styling */
+.post-header {
+margin-bottom: 50px;
+text-align: center;
+padding-bottom: 30px;
+border-bottom: 1px solid var(--el-border-color-lighter);
+
+.post-title {
+font-size: 2.5rem;
+font-weight: 800;
+margin-bottom: 24px;
+line-height: 1.3;
+background: var(--primary-gradient);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.post-meta {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 24px;
+color: var(--el-text-color-secondary);
+font-size: 0.95rem;
+
+.meta-item {
+display: flex;
+align-items: center;
+gap: 6px;
+}
+}
+}
+
+.post-nav {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 24px;
+margin-top: 80px;
+padding-top: 40px;
+border-top: 1px solid var(--el-border-color-lighter);
+
+.nav-item {
+cursor: pointer;
+padding: 24px;
+border-radius: var(--border-radius-lg);
+border: 1px solid var(--el-border-color-lighter);
+transition: var(--transition-smooth);
+display: flex;
+flex-direction: column;
+
+&:hover {
+border-color: var(--el-color-primary);
+background: var(--el-fill-color-light);
+transform: translateY(-2px);
+}
+
+&.next {
+text-align: right;
+}
+
+.label {
+font-size: 0.85rem;
+color: var(--el-text-color-secondary);
+margin-bottom: 10px;
+}
+
+.link-title {
+font-weight: 700;
+color: var(--el-text-color-primary);
+font-size: 1.05rem;
+}
+}
+}
+
+.toc-mobile {
+margin-bottom: 30px;
+border: 1px solid var(--el-border-color-lighter);
+border-radius: 8px;
+overflow: hidden;
+
+:deep(.el-collapse) {
+border: none;
+}
+
+:deep(.el-collapse-item__header) {
+padding-left: 15px;
+font-weight: 600;
+}
+
+.toc-list {
+padding: 0 15px 15px;
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+.toc-link {
+text-decoration: none;
+color: var(--el-text-color-regular);
+font-size: 0.95rem;
+display: block;
+
+&.level-3 {
+padding-left: 15px;
+color: var(--el-text-color-secondary);
+}
+}
+}
+
+// Markdown Styles
+.markdown-body {
+font-size: 1.1rem;
+line-height: 1.8;
+color: var(--el-text-color-primary);
+font-family: 'Inter', system-ui, sans-serif;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+color: var(--el-text-color-primary);
+font-weight: 700;
+margin-top: 3rem;
+margin-bottom: 1.5rem;
+line-height: 1.3;
+}
+
+h1 {
+font-size: 2.2em;
+border-bottom: 1px solid var(--el-border-color-lighter);
+padding-bottom: 0.5rem;
+}
+
+h2 {
+font-size: 1.8em;
+padding-bottom: 0.5rem;
+border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+h3 {
+font-size: 1.5em;
+}
+
+p {
+margin-bottom: 1.8rem;
+letter-spacing: 0.01em;
+}
+
+blockquote {
+border-left: 4px solid var(--el-color-primary);
+background: var(--el-color-primary-light-9);
+padding: 20px 24px;
+margin: 32px 0;
+border-radius: 0 8px 8px 0;
+
+p {
+margin-bottom: 0;
+color: var(--el-text-color-regular);
+}
+}
+
+code {
+background: var(--el-fill-color);
+padding: 2px 6px;
+border-radius: 4px;
+font-family: 'JetBrains Mono', monospace;
+font-size: 0.9em;
+color: var(--el-color-danger);
+}
+
+pre {
+background: #1e1e1e;
+padding: 24px;
+border-radius: 12px;
+margin: 32px 0;
+overflow-x: auto;
+
+code {
+background: none;
+color: #d4d4d4;
+padding: 0;
+font-size: 0.9rem;
+}
+}
+
+img {
+max-width: 100%;
+border-radius: 12px;
+box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+display: block;
+margin: 32px auto;
+}
+
+a {
+color: var(--el-color-primary);
+text-decoration: none;
+border-bottom: 1px solid transparent;
+transition: border-color 0.2s;
+
+&:hover {
+border-bottom-color: var(--el-color-primary);
+}
+}
+
+ul,
+ol {
+padding-left: 24px;
+margin-bottom: 24px;
+
+li {
+margin-bottom: 10px;
+padding-left: 6px;
+}
+}
 }
 </style>

@@ -33,7 +33,6 @@
 - 子路由配置：
   - `path: ''`: 首页 (`Home.vue`) - Hero 区域 + 技能矩阵 + 精选项目
   - `path: 'projects'`: 项目页 (`Projects.vue`) - 展示作品集卡片
-  - `path: 'about'`: 关于页 (`About.vue`) - 个人履历 + 时间线
   - (Planned) `path: 'blog'`: 博客列表页
 
 ### 3.3 目录规范
@@ -64,9 +63,6 @@
 - [ ] **建立博客系统**:
   - 方案：引入 Markdown 渲染管线 (`vite-plugin-md` 或类似)。
   - 目标：支持代码高亮、Frontmatter 元数据。
-- [ ] **完善 About 页面**:
-  - 增加可视化的职业生涯时间轴 (Timeline)。
-  - 增加 PDF 简历下载入口。
 
 ### 5.2 功能层 (Features)
 

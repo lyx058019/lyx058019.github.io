@@ -29,7 +29,9 @@ function parseDateToRss(dateStr) {
   if (!dateStr) return null;
   const m = String(dateStr).match(/^(\d{4})-(\d{2})-(\d{2})/);
   if (!m) return null;
-  const d = new Date(Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3]), 0, 0, 0));
+  const d = new Date(
+    Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3]), 0, 0, 0),
+  );
   return d.toUTCString();
 }
 
@@ -67,12 +69,14 @@ async function getPosts() {
 }
 
 async function writeSitemap(posts) {
-  const staticPaths = ["/", "/blog", "/tools", "/about", "/projects"].filter(Boolean);
+  const staticPaths = ["/", "/blog", "/tools", "/projects"].filter(Boolean);
   const postPaths = posts.map((p) => `/blog/${p.slug}`);
   const urls = [...staticPaths, ...postPaths];
 
   const body = urls
-    .map((p) => `  <url>\n    <loc>${escapeXml(toAbsoluteUrl(p))}</loc>\n  </url>`)
+    .map(
+      (p) => `  <url>\n    <loc>${escapeXml(toAbsoluteUrl(p))}</loc>\n  </url>`,
+    )
     .join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;

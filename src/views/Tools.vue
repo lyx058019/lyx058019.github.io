@@ -1,8 +1,20 @@
 <script setup lang="ts">
 import { tools } from '@/data/tools'
+import { Search } from '@element-plus/icons-vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const searchQuery = ref('')
+
+const filteredTools = computed(() => {
+  const query = searchQuery.value.toLowerCase().trim()
+  if (!query) return tools
+  return tools.filter(t =>
+    t.name.toLowerCase().includes(query) ||
+    t.description.toLowerCase().includes(query)
+  )
+})
 
 const openTool = (path: string) => {
   router.push(path)
@@ -16,11 +28,23 @@ const openTool = (path: string) => {
       <p class="page-subtitle">开发者常用的便捷小工具集合</p>
     </div>
 
-    <el-row :gutter="20" class="tool-list">
-      <el-col :xs="24" :sm="12" :md="8" v-for="tool in tools" :key="tool.id" class="tool-col">
-        <el-card class="tool-card" shadow="hover" @click="openTool(tool.path)">
+    <!-- Search Section -->
+    <div class="site-controls">
+      <el-input v-model="searchQuery" placeholder="Search tools..." clearable class="search-input" size="large">
+        <template #prefix>
+          <el-icon>
+            <Search />
+          </el-icon>
+        </template>
+      </el-input>
+    </div>
+
+    <el-row :gutter="24" class="tool-list">
+      <el-col :xs="24" :sm="12" :md="8" v-for="tool in filteredTools" :key="tool.id" class="tool-col">
+        <el-card class="tool-card pk-tool-card" shadow="hover" @click="openTool(tool.path)">
           <div class="tool-content">
-            <div class="tool-icon" :style="{ backgroundColor: tool.color + '20', color: tool.color }">
+            <div class="tool-icon"
+              :style="{ backgroundColor: tool.color ? tool.color + '15' : 'var(--pk-color-primary)15', color: tool.color || 'var(--pk-color-primary)' }">
               <component :is="tool.icon" />
             </div>
             <div class="tool-info">
@@ -33,49 +57,69 @@ const openTool = (path: string) => {
     </el-row>
 
     <!-- 占位提示 -->
-    <el-empty v-if="tools.length === 0" description="暂无工具，敬请期待" />
+    <el-empty v-if="filteredTools.length === 0" description="No tools found" />
   </div>
 </template>
 
 <style scoped lang="scss">
 .tools-view {
   max-width: 1000px;
+  /* Swiss consistent width */
   margin: 0 auto;
-  padding: 20px;
 }
 
 .page-header {
-  text-align: center;
-  margin-bottom: 3rem;
+  text-align: left;
+  /* Swiss alignment */
+  margin-bottom: 60px;
+}
 
-  .page-title {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-  }
+.site-controls {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: flex-start;
+  /* Left align search */
+}
 
-  .page-subtitle {
-    color: var(--el-text-color-secondary);
+.search-input {
+  max-width: 400px;
+  width: 100%;
+
+  :deep(.el-input__wrapper) {
+    background-color: var(--pk-color-bg-card);
+    box-shadow: none;
+    border: 1px solid var(--pk-border-color);
+    border-radius: var(--border-radius-sm);
+    transition: all 0.2s ease;
+
+    &.is-focus {
+      border-color: var(--pk-color-primary);
+      box-shadow: 0 0 0 1px var(--pk-color-primary) inset;
+    }
   }
 }
 
 .tool-col {
-  margin-bottom: 20px;
-  /* 增加行间距 */
+  margin-bottom: 32px;
 }
 
-.tool-card {
+.pk-tool-card {
   height: 100%;
   cursor: pointer;
-  transition: all 0.3s;
-  /* margin-bottom: 20px;  移除旧的 margin，由 col 统一控制 */
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--pk-color-bg-card);
+  border: 1px solid var(--pk-border-color);
+  border-radius: var(--border-radius-lg);
 
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
+    border-color: var(--pk-color-primary);
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.1);
   }
 
   .tool-content {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.5rem;
   }
 
@@ -93,15 +137,17 @@ const openTool = (path: string) => {
   .tool-info {
     h3 {
       margin: 0 0 0.5rem;
-      font-size: 1.2rem;
-      color: var(--el-text-color-primary);
+      font-size: 1.15rem;
+      color: var(--pk-color-text-primary);
+      font-weight: 800;
+      letter-spacing: -0.02em;
     }
 
     p {
       margin: 0;
-      color: var(--el-text-color-secondary);
-      font-size: 0.9rem;
-      line-height: 1.4;
+      color: var(--pk-color-text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
     }
   }
 }

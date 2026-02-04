@@ -8,8 +8,8 @@
  */
 import { createRouter, createWebHistory } from "vue-router";
 import MainLayout from "../layout/MainLayout.vue";
-import Home from "../views/Home.vue";
 import { applySeoFromRouteMeta } from "../seo/head";
+import Home from "../views/Home.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,7 +44,8 @@ const router = createRouter({
           component: () => import("../views/Blog.vue"),
           meta: {
             title: "博客 | LYX.DEV",
-            description: "记录技术与思考，包含前端工程化、Vue、TypeScript 等主题。",
+            description:
+              "记录技术与思考，包含前端工程化、Vue、TypeScript 等主题。",
             canonicalPath: "/blog",
           },
         },
@@ -54,7 +55,8 @@ const router = createRouter({
           component: () => import("../views/Tools.vue"),
           meta: {
             title: "工具箱 | LYX.DEV",
-            description: "在线开发者工具箱：JSON、Base64、URL、Hash、二维码、时间戳、UUID 等。",
+            description:
+              "在线开发者工具箱：JSON、Base64、URL、Hash、二维码、时间戳、UUID 等。",
             canonicalPath: "/tools",
           },
         },
@@ -110,16 +112,6 @@ const router = createRouter({
           meta: {
             title: "博客文章 | LYX.DEV",
             description: "博客文章详情。",
-          },
-        },
-        {
-          path: "about",
-          name: "about",
-          component: () => import("../views/About.vue"),
-          meta: {
-            title: "关于 | LYX.DEV",
-            description: "关于 lyx058019：经历、技能与联系方式。",
-            canonicalPath: "/about",
           },
         },
       ],
