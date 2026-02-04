@@ -41,6 +41,11 @@ const description = computed(() => {
   return typeof v === 'string' ? v : ''
 })
 
+const readingTime = computed(() => {
+  const v = frontmatter.value?.readingTime
+  return typeof v === 'string' ? v : ''
+})
+
 const tags = computed(() => {
   const v = frontmatter.value?.tags
   return Array.isArray(v) ? v.filter((t) => typeof t === 'string') : []
@@ -149,11 +154,17 @@ watchEffect((onCleanup) => {
       const fmTitle = typeof frontmatter.value.title === 'string' ? frontmatter.value.title : undefined
       const fmDesc = typeof frontmatter.value.description === 'string' ? frontmatter.value.description : undefined
 
+      // 阅读时间/关键词等元数据（如有提供）将被用于 SEO 与页面显示
+      const fmKeywords = Array.isArray(frontmatter.value?.keywords)
+        ? frontmatter.value.keywords.filter((k: any) => typeof k === 'string')
+        : []
+
       applySeo({
         title: fmTitle ? `${fmTitle} | 博客 | LYX.DEV` : undefined,
         description: fmDesc,
         canonicalPath: `/blog/${id}`,
         type: 'article',
+        keywords: fmKeywords.length ? fmKeywords.join(', ') : undefined,
       })
 
       await nextTick()
@@ -181,12 +192,13 @@ const goBack = () => {
     </div>
 
     <article v-else-if="postComponent" class="post" ref="contentEl">
-      <header class="post-header">
-        <h1 class="post-title" v-if="title">{{ title }}</h1>
-        <p class="post-desc" v-if="description">{{ description }}</p>
-        <div class="post-meta" v-if="dateText || tags.length">
-          <span class="post-date" v-if="dateText">{{ dateText }}</span>
-          <span class="post-tags" v-if="tags.length">
+        <header class="post-header">
+          <h1 class="post-title" v-if="title">{{ title }}</h1>
+          <p class="post-desc" v-if="description">{{ description }}</p>
+          <div class="post-meta" v-if="dateText || tags.length || readingTime">
+            <span class="post-date" v-if="dateText">{{ dateText }}</span>
+            <span class="post-reading" v-if="readingTime">（{{ readingTime }}）</span>
+            <span class="post-tags" v-if="tags.length">
             <el-tag v-for="tag in tags" :key="tag" size="small" effect="plain">{{ tag }}</el-tag>
           </span>
         </div>

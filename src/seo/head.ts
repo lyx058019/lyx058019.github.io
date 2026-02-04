@@ -46,13 +46,14 @@ function toAbsoluteUrl(pathOrUrl: string) {
 }
 
 export interface SeoInput {
-  title?: string;
-  description?: string;
-  path?: string;
-  canonicalPath?: string;
-  image?: string;
-  type?: string;
-  noindex?: boolean;
+    title?: string;
+    description?: string;
+    path?: string;
+    canonicalPath?: string;
+    image?: string;
+    type?: string;
+    noindex?: boolean;
+    keywords?: string;
 }
 
 export function applySeo(input: SeoInput) {
@@ -75,6 +76,13 @@ export function applySeo(input: SeoInput) {
   ensureMetaByName("twitter:title").setAttribute("content", title);
   ensureMetaByName("twitter:description").setAttribute("content", description);
   ensureMetaByName("twitter:image").setAttribute("content", image);
+  // SEO keywords (optional)
+  if (input.keywords) {
+    ensureMetaByName("keywords").setAttribute("content", input.keywords);
+  } else {
+    const kwEl = document.head.querySelector("meta[name=\"keywords\"]") as HTMLMetaElement | null;
+    if (kwEl) kwEl.remove();
+  }
 
   if (input.noindex) {
     ensureMetaByName("robots").setAttribute("content", "noindex,nofollow");
