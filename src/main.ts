@@ -7,6 +7,8 @@ import router from "./router";
 import "element-plus/dist/index.css";
 // 导入 Element Plus 暗黑模式样式
 import "element-plus/theme-chalk/dark/css-vars.css";
+// 导入自定义全局样式
+import "./styles/main.scss";
 // 导入 PrismJS 代码高亮样式
 import "prismjs/themes/prism-tomorrow.css";
 

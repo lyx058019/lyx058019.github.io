@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import postsIndex from '@/data/posts.index.json'
 import { projectList } from '@/data/projects'
 import { skills } from '@/data/skills'
 import { tools } from '@/data/tools'
-import postsIndex from '@/data/posts.index.json'
 import { Promotion } from '@element-plus/icons-vue'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -129,7 +129,8 @@ const goTool = (path: string) => router.push(path)
         <el-col :xs="24" :sm="12" :md="8" v-for="tool in featuredTools" :key="tool.id">
           <el-card shadow="hover" class="tool-card" @click="goTool(tool.path)">
             <div class="tool-content">
-              <div class="tool-icon" :style="{ backgroundColor: (tool.color || '#409eff') + '1f', color: tool.color || '#409eff' }">
+              <div class="tool-icon"
+                :style="{ backgroundColor: (tool.color || '#409eff') + '1f', color: tool.color || '#409eff' }">
                 <component :is="tool.icon" />
               </div>
               <div class="tool-info">
@@ -147,214 +148,214 @@ const goTool = (path: string) => router.push(path)
 <style scoped lang="scss">
 .home-view {
   .section {
-    padding: 4rem 0;
+    padding: 60px 0;
+  }
+
+  :deep(.el-row) {
+    margin-bottom: -24px;
+    /* 抵消最后一行的 margin-bottom */
+  }
+
+  :deep(.el-col) {
+    margin-bottom: 24px;
   }
 
   .section-head {
-    max-width: 1000px;
-    margin: 0 auto 3rem;
+    max-width: 1200px;
+    margin: 0 auto 40px;
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    padding: 0 4px;
-  }
+    padding: 0 10px;
 
-  .section-more {
-    font-weight: 600;
+    .section-title {
+      margin-bottom: 0;
+      text-align: left;
+
+      &::after {
+        left: 0;
+        transform: none;
+        width: 40px;
+        bottom: -8px;
+      }
+    }
   }
 
   .section-title {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 3rem;
+    font-size: 2.2rem;
+    margin-bottom: 50px;
     position: relative;
+    font-weight: 800;
 
     &::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -12px;
       left: 50%;
       transform: translateX(-50%);
-      width: 50px;
-      height: 4px;
-      background: var(--el-color-primary);
-      border-radius: 2px;
+      width: 60px;
+      height: 5px;
+      background: var(--primary-gradient);
+      border-radius: 10px;
     }
   }
 }
 
 .hero {
-  height: 60vh;
+  min-height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: radial-gradient(circle at top right, var(--el-color-primary-light-9), transparent);
-  border-radius: 16px;
-  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--border-radius-lg);
+  margin-bottom: 40px;
+  background: radial-gradient(circle at 0% 0%, var(--el-color-primary-light-9) 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, var(--el-color-success-light-9) 0%, transparent 50%);
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    padding: 0 20px;
+  }
 
   h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
+    font-size: 4.5rem;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -2px;
 
-    .highlight {
-      color: var(--el-color-primary);
+    span.highlight {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   }
 
   .subtitle {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     color: var(--el-text-color-secondary);
-    margin-bottom: 2rem;
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+  }
+}
+
+.post-card,
+.skill-card,
+.tool-card {
+  border: 1px solid var(--el-border-color-lighter);
+  border-radius: var(--border-radius-lg);
+  transition: var(--transition-smooth);
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    border-color: var(--el-color-primary-light-5);
   }
 }
 
 .post-card {
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-  }
 
   .post-top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 10px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
 
   .post-title {
-    font-size: 1.05rem;
+    font-size: 1.25rem;
     font-weight: 700;
-    color: var(--el-text-color-primary);
-    line-height: 1.35;
+    line-height: 1.4;
   }
 
   .post-date {
-    flex-shrink: 0;
     font-size: 0.85rem;
     color: var(--el-text-color-secondary);
-    padding-top: 2px;
+    white-space: nowrap;
   }
 
   .post-desc {
     color: var(--el-text-color-regular);
-    line-height: 1.6;
-    margin: 0 0 10px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+  }
+}
+
+.skill-card {
+  padding: 30px 20px;
+  text-align: center;
+
+  .el-icon {
+    margin-bottom: 20px;
+    transition: var(--transition-smooth);
   }
 
-  .post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+  &:hover .el-icon {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  h3 {
+    margin-bottom: 15px;
+    font-size: 1.25rem;
   }
 }
 
 .tool-card {
   cursor: pointer;
-  transition: transform 0.25s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-  }
 
   .tool-content {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
   }
 
   .tool-icon {
-    width: 46px;
-    height: 46px;
+    width: 50px;
+    height: 50px;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
+    font-size: 24px;
+    background: var(--el-fill-color-light);
   }
 
   .tool-name {
     font-weight: 700;
+    font-size: 1.1rem;
     margin-bottom: 4px;
   }
 
   .tool-desc {
     color: var(--el-text-color-secondary);
     font-size: 0.9rem;
-    line-height: 1.4;
-  }
-}
-
-.skill-card {
-  text-align: center;
-  transition: transform 0.3s;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
-
-  h3 {
-    margin: 1rem 0;
-  }
-}
-
-.project-card {
-  height: 100%;
-
-  .project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
-/* 简单动画 */
-.animate-drop {
-  animation: dropIn 0.8s ease-out;
-}
-
-.animate-fade {
-  animation: fadeIn 1.2s ease-out;
-}
-
-@keyframes dropIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
   }
 }
 
 @media (max-width: 768px) {
   .hero h1 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
+    letter-spacing: -1px;
   }
 
-  .home-view .section-head {
-    margin-bottom: 2rem;
+  .hero .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
   }
 }
 </style>

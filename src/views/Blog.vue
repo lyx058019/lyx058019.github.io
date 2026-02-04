@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Calendar } from '@element-plus/icons-vue'
+import postsIndex from '@/data/posts.index.json'
+import { Search, Timer } from '@element-plus/icons-vue'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import postsIndex from '@/data/posts.index.json'
 
 const router = useRouter()
 
@@ -77,9 +77,16 @@ const goToPost = (id: string) => {
       <p class="page-subtitle">分享技术、思考与生活</p>
     </div>
 
-    <div class="filters">
-      <el-input v-model="query" clearable placeholder="搜索标题 / 描述" class="search" />
-      <el-select v-model="activeTags" multiple clearable collapse-tags collapse-tags-tooltip placeholder="按标签筛选" class="tags">
+    <div class="filters glass-effect">
+      <el-input v-model="query" clearable placeholder="搜索标题 / 描述" class="search">
+        <template #prefix>
+          <el-icon>
+            <Search />
+          </el-icon>
+        </template>
+      </el-input>
+      <el-select v-model="activeTags" multiple clearable collapse-tags collapse-tags-tooltip placeholder="按标签筛选"
+        class="tags">
         <el-option v-for="tag in allTags" :key="tag" :label="tag" :value="tag" />
       </el-select>
     </div>
@@ -87,15 +94,19 @@ const goToPost = (id: string) => {
     <div class="post-list">
       <el-card v-for="post in filteredPosts" :key="post.id" class="post-item" shadow="hover" @click="goToPost(post.id)">
         <div class="post-content">
-          <h2 class="post-title">{{ post.title }}</h2>
+          <div class="post-top">
+            <h2 class="post-title">{{ post.title }}</h2>
+            <div class="post-date">{{ formatDate(post.date) }}</div>
+          </div>
           <div class="post-meta">
-            <span class="meta-item"><el-icon>
-              <Calendar />
-              </el-icon> {{ formatDate(post.date) }}</span>
-            <span class="meta-item" v-if="post.tags.length">
-              <el-tag v-for="tag in post.tags" :key="tag" size="small" effect="plain">{{ tag }}</el-tag>
+            <span class="meta-tags" v-if="post.tags.length">
+              <el-tag v-for="tag in post.tags" :key="tag" size="small" effect="plain" round>{{ tag }}</el-tag>
             </span>
-            <span class="meta-item" v-if="post.readingTime">（{{ post.readingTime }}）</span>
+            <span class="meta-info" v-if="post.readingTime">
+              <el-icon>
+                <Timer />
+              </el-icon> {{ post.readingTime }}
+            </span>
           </div>
           <p class="post-desc">{{ post.description }}</p>
         </div>
@@ -108,49 +119,67 @@ const goToPost = (id: string) => {
 
 <style scoped lang="scss">
 .blog-list-view {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 20px;
 }
 
-.page-header {
-  text-align: center;
-  margin-bottom: 3rem;
+.filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 40px;
+  padding: 20px;
+  border-radius: var(--border-radius-lg);
 
-  .page-title {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+  .search {
+    flex: 2;
   }
 
-  .page-subtitle {
-    color: var(--el-text-color-secondary);
+  .tags {
+    flex: 1;
   }
 }
 
 .post-item {
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
   cursor: pointer;
-  transition: transform 0.2s;
 
-  &:hover {
-    transform: translateY(-2px);
+  .post-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 16px;
   }
 
   .post-title {
-    margin: 0 0 0.5rem;
-    font-size: 1.5rem;
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.3;
     color: var(--el-text-color-primary);
+  }
+
+  .post-date {
+    font-size: 0.9rem;
+    color: var(--el-text-color-secondary);
+    white-space: nowrap;
+    padding-top: 6px;
   }
 
   .post-meta {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    color: var(--el-text-color-secondary);
-    font-size: 0.9rem;
+    gap: 16px;
+    margin-bottom: 16px;
 
-    .meta-item {
+    .meta-tags {
+      display: flex;
+      gap: 8px;
+    }
+
+    .meta-info {
+      font-size: 0.85rem;
+      color: var(--el-text-color-secondary);
       display: flex;
       align-items: center;
       gap: 4px;
@@ -161,34 +190,18 @@ const goToPost = (id: string) => {
     color: var(--el-text-color-regular);
     line-height: 1.6;
     margin: 0;
+    font-size: 1.05rem;
   }
 }
 
-.filters {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin: 0 auto 1.5rem;
-  max-width: 800px;
-
-  .search {
-    flex: 1;
-    min-width: 220px;
-  }
-
-  .tags {
-    width: 280px;
-  }
-}
-
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .filters {
     flex-direction: column;
-    align-items: stretch;
+  }
 
-    .tags {
-      width: 100%;
-    }
+  .post-top {
+    flex-direction: column;
+    gap: 4px;
   }
 }
 </style>

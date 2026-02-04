@@ -26,6 +26,11 @@ const handleSelect = (key: string) => {
 
 <template>
   <div class="common-layout">
+    <div class="bg-decoration">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+    </div>
     <el-container class="layout-container">
       <el-header class="header">
         <div class="header-content">
@@ -87,11 +92,65 @@ const handleSelect = (key: string) => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.bg-decoration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    animation: float 20s infinite alternate ease-in-out;
+
+    .dark & {
+      opacity: 0.1;
+    }
+  }
+
+  .circle-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--el-color-primary);
+    top: -100px;
+    left: -100px;
+  }
+
+  .circle-2 {
+    width: 300px;
+    height: 300px;
+    background: var(--el-color-success);
+    bottom: -50px;
+    right: -50px;
+    animation-delay: -5s;
+  }
+
+  .circle-3 {
+    width: 250px;
+    height: 250px;
+    background: var(--el-color-warning);
+    top: 40%;
+    right: 15%;
+    animation-delay: -10s;
+    opacity: 0.05;
+  }
 }
 
 .header {
-  border-bottom: 1px solid var(--el-border-color-light);
-  background-color: var(--el-bg-color);
+  border-bottom: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -103,83 +162,95 @@ const handleSelect = (key: string) => {
     align-items: center;
     justify-content: space-between;
     height: 100%;
+    padding: 0 20px;
   }
 
   .logo {
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 12px;
-    transition: transform 0.2s ease;
+    gap: 8px;
+    transition: var(--transition-smooth);
 
     &:hover {
-      transform: translateY(-1px);
+      transform: translateY(-2px);
 
       .logo-icon {
-        filter: drop-shadow(0 0 8px var(--el-color-primary-light-5));
+        filter: drop-shadow(0 0 12px var(--el-color-primary));
+      }
+
+      .logo-title {
+        color: var(--el-color-primary);
       }
     }
 
     .logo-icon-wrapper {
-      width: 38px;
-      height: 38px;
-      padding: 4px;
-      border-radius: 8px;
-      background: var(--el-color-primary-light-9);
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
-
-      .dark & {
-        background: var(--el-color-primary-dark-2);
-      }
     }
 
     .logo-icon {
       width: 100%;
       height: 100%;
       stroke: var(--el-color-primary);
+      transition: var(--transition-smooth);
     }
 
     .logo-text-wrapper {
       display: flex;
       align-items: baseline;
       line-height: 1;
-      font-family: 'JetBrains Mono', monospace, sans-serif;
     }
 
     .logo-title {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: var(--el-text-color-primary);
-      letter-spacing: -1px;
+      letter-spacing: -0.5px;
+      transition: var(--transition-smooth);
     }
 
     .logo-dot {
       color: var(--el-color-primary);
       font-weight: bold;
-      margin: 0 2px;
-      font-size: 1.5rem;
+      margin: 0 1px;
     }
 
     .logo-suffix {
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 600;
       color: var(--el-text-color-secondary);
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
     }
   }
 
   .nav-menu {
     border-bottom: none;
     flex-grow: 1;
-    margin-left: 2rem;
+    margin: 0 2rem;
+    background: transparent;
+
+    :deep(.el-menu-item) {
+      font-weight: 500;
+      height: 60px;
+      line-height: 60px;
+      transition: var(--transition-smooth);
+
+      &:hover,
+      &.is-active {
+        background: transparent !important;
+        color: var(--el-color-primary) !important;
+      }
+    }
   }
 
   .header-right {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.2rem;
   }
 }
 
@@ -188,12 +259,12 @@ const handleSelect = (key: string) => {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  padding-top: 2rem;
+  padding: 40px 20px;
 }
 
 .footer {
-  border-top: 1px solid var(--el-border-color-light);
-  padding: 2rem 0;
+  border-top: 1px solid var(--el-border-color-extra-light);
+  padding: 60px 20px 40px;
   background-color: var(--el-bg-color-page);
 
   .footer-content {
@@ -201,17 +272,17 @@ const handleSelect = (key: string) => {
     margin: 0 auto;
     text-align: center;
     color: var(--el-text-color-secondary);
+
+    p {
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
   }
-}
 
-/* 过渡动画 */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
 }
 </style>

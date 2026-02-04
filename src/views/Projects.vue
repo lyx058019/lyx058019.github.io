@@ -1,27 +1,26 @@
-<script setup lang="ts">
-import { projectList } from '@/data/projects';
-</script>
-
 <template>
   <div class="projects-view">
     <div class="page-header">
-      <h2 class="page-title">我的项目</h2>
-      <p class="page-subtitle">一些做过的尝试与练习（持续整理中）</p>
+      <h1 class="page-title">全部项目</h1>
+      <p class="page-subtitle">探索我的个人项目与技术练习</p>
     </div>
-    <el-row :gutter="30">
-      <el-col :xs="24" :sm="12" :md="8" v-for="p in projectList" :key="p.title">
-        <el-card :body-style="{ padding: '0px' }" class="p-card" shadow="hover">
-          <img :src="p.image" class="image" />
-          <div style="padding: 14px">
+    <el-row :gutter="24">
+      <el-col :xs="24" :sm="12" :md="8" v-for="p in projectList" :key="p.title" class="project-col">
+        <el-card :body-style="{ padding: '0px' }" class="project-card" shadow="hover">
+          <div class="image-wrapper">
+            <img :src="p.image" class="image" />
+            <div class="image-overlay" v-if="p.link || p.repo">
+              <el-button-group>
+                <el-button v-if="p.link" type="primary" @click="openLink(p.link)">预览</el-button>
+                <el-button v-if="p.repo" @click="openLink(p.repo)">源码</el-button>
+              </el-button-group>
+            </div>
+          </div>
+          <div class="content">
             <h3>{{ p.title }}</h3>
             <p class="desc">{{ p.description }}</p>
             <div class="tech-tags">
-              <el-tag v-for="t in p.tech" :key="t" size="small">{{ t }}</el-tag>
-            </div>
-            <div class="bottom">
-              <el-link v-if="p.repo" :href="p.repo" target="_blank" :underline="false" class="button">查看源码</el-link>
-              <el-link v-if="p.link" :href="p.link" target="_blank" :underline="false" class="button">在线预览</el-link>
-              <el-tag v-if="!p.repo && !p.link" size="small" type="info">整理中</el-tag>
+              <el-tag v-for="t in p.tech" :key="t" size="small" effect="plain" round>{{ t }}</el-tag>
             </div>
           </div>
         </el-card>
@@ -30,48 +29,87 @@ import { projectList } from '@/data/projects';
   </div>
 </template>
 
+<script setup lang="ts">
+import { projectList } from '@/data/projects';
+const openLink = (url: string) => window.open(url, '_blank')
+</script>
+
 <style scoped lang="scss">
-.page-title {
-  font-size: 2.5rem;
-  text-align: center;
+.projects-view {
+  padding-bottom: 60px;
 }
 
-.page-header {
-  text-align: center;
-  margin-bottom: 2.5rem;
-
-  .page-subtitle {
-    margin: 0.5rem 0 0;
-    color: var(--el-text-color-secondary);
-  }
+.project-col {
+  margin-bottom: 24px;
 }
 
-.p-card {
-  margin-bottom: 2rem;
+.project-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
-  .image {
-    width: 100%;
-    display: block;
+  .image-wrapper {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+
+    .image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition-smooth);
+    }
+
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: var(--transition-smooth);
+      backdrop-filter: blur(4px);
+    }
   }
 
-  .desc {
-    font-size: 14px;
-    color: var(--el-text-color-secondary);
-    margin: 10px 0;
+  &:hover {
+    .image {
+      transform: scale(1.05);
+    }
+
+    .image-overlay {
+      opacity: 1;
+    }
   }
 
-  .tech-tags {
+  .content {
+    padding: 20px;
+    flex: 1;
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
+    flex-direction: column;
 
-  .bottom {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
+    h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+    }
+
+    .desc {
+      font-size: 0.95rem;
+      color: var(--el-text-color-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
   }
 }
 </style>
