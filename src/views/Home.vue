@@ -39,21 +39,19 @@ const goTool = (path: string) => router.push(path)
   <div class="home-view">
     <!-- Hero Section -->
     <section class="hero bg-hero-grid">
-      <!-- Ambient Orbs -->
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
+      <!-- Ambient Orbs Removed -->
 
       <div class="hero-content">
         <div class="hero-badge">
-          <span class="pulse"></span> Available for work
+          Available for collaboration
         </div>
-        <h1 class="animate-drop">构建<br><span class="highlight">数字化体验</span></h1>
-        <p class="subtitle animate-fade">前端开发工程师 & 敏捷开发者。<br>专注于构建高性能、可访问的 Web 应用程序。</p>
+        <h1 class="animate-drop">用代码把AI<br><span class="highlight">从论文变成产品</span></h1>
+        <p class="subtitle animate-fade">AI 工具创造者 · 全栈工程师<br>专注将前沿技术落地为可用产品与工作流。</p>
 
         <div class="hero-actions">
-          <el-button type="primary" size="large" :icon="Promotion" color="#FF4D00" class="pk-btn-primary"
-            @click="goBlog">阅读博客</el-button>
-          <el-button size="large" class="pk-btn-secondary" @click="goProjects">查看项目</el-button>
+          <el-button type="primary" size="large" :icon="Promotion" class="pk-btn-primary"
+            @click="goBlog">看我的作品</el-button>
+          <el-button size="large" class="pk-btn-secondary" @click="goTools">试试我的AI工具</el-button>
         </div>
       </div>
     </section>
@@ -147,29 +145,21 @@ const goTool = (path: string) => router.push(path)
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 12px;
-    background: rgba(255, 77, 0, 0.1);
+    padding: 6px 16px;
+    background: var(--pk-ambient-1);
     color: var(--pk-color-primary);
     border-radius: 99px;
     font-size: 0.85rem;
-    font-weight: 700;
+    font-weight: 600;
     margin-bottom: 24px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-
-    .pulse {
-      width: 8px;
-      height: 8px;
-      background: currentColor;
-      border-radius: 50%;
-      box-shadow: 0 0 0 rgba(255, 77, 0, 0.4);
-      animation: pulse 2s infinite;
-    }
+    border: 1px solid var(--pk-border-color);
   }
 
   h1 {
     font-size: clamp(3rem, 8vw, 6rem);
-    line-height: 0.95;
+    line-height: 1.1;
     margin-bottom: 32px;
     letter-spacing: -0.04em;
     font-weight: 900;
@@ -178,35 +168,6 @@ const goTool = (path: string) => router.push(path)
     .highlight {
       color: var(--pk-color-primary);
     }
-  }
-
-  .orb {
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.15;
-    z-index: 0;
-    pointer-events: none;
-    animation: floatOrb 10s infinite ease-in-out;
-  }
-
-  .orb-1 {
-    background: var(--pk-color-primary);
-    top: -50px;
-    right: -50px;
-    animation-delay: 0s;
-  }
-
-  .orb-2 {
-    background: #4f46e5;
-    /* Indigo */
-    bottom: -50px;
-    left: 20%;
-    width: 200px;
-    height: 200px;
-    animation-delay: -5s;
   }
 
   .subtitle {
@@ -219,18 +180,6 @@ const goTool = (path: string) => router.push(path)
   .hero-actions {
     display: flex;
     gap: 12px;
-  }
-}
-
-@keyframes floatOrb {
-
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-
-  50% {
-    transform: translate(20px, -20px);
   }
 }
 
@@ -268,22 +217,21 @@ const goTool = (path: string) => router.push(path)
     grid-row: span 2;
   }
 
-  background: #171717;
-  /* Neutral-900: Always dark to support white text */
+  background: var(--pk-color-surface-strong);
   /* Dark Card for Feature */
   border: none;
 
   .project-info {
     h3 {
       font-size: 2.5rem;
-      color: white;
+      color: var(--pk-color-text-on-strong);
       margin: 0 0 16px;
       line-height: 1;
       letter-spacing: -0.03em;
     }
 
     p {
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--pk-color-text-on-strong-muted);
       font-size: 1.1rem;
       margin-bottom: 24px;
     }
@@ -296,24 +244,24 @@ const goTool = (path: string) => router.push(path)
 
     span {
       padding: 4px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid var(--pk-color-border-on-strong);
       border-radius: 99px;
       font-size: 0.8rem;
-      color: white;
+      color: var(--pk-color-text-on-strong);
     }
   }
 
   .pk-tag-indicator {
     background: var(--pk-color-primary);
     border: none;
-    color: white;
+    color: var(--pk-color-text-on-strong);
     font-weight: 800;
     letter-spacing: 0.05em;
   }
 
   .action-icon {
     font-size: 24px;
-    color: white;
+    color: var(--pk-color-text-on-strong);
     transform: rotate(-45deg);
     transition: transform 0.3s;
   }
@@ -431,7 +379,7 @@ const goTool = (path: string) => router.push(path)
     align-items: center;
     justify-content: center;
     background: var(--pk-color-bg-card);
-    transition: all 0.3s;
+    transition: var(--transition-smooth);
     font-size: 20px;
   }
 
@@ -439,20 +387,6 @@ const goTool = (path: string) => router.push(path)
     border-color: var(--pk-color-primary);
     color: var(--pk-color-primary);
     transform: rotate(90deg);
-  }
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 77, 0, 0.4);
-  }
-
-  70% {
-    box-shadow: 0 0 0 6px rgba(255, 77, 0, 0);
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 77, 0, 0);
   }
 }
 

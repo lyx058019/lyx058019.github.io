@@ -61,7 +61,7 @@ const handleSelect = (key: string) => {
         <div class="footer-inner">
           <div class="footer-left">
             <div class="footer-brand">LYX.DEV</div>
-            <p class="footer-tagline">Engineering User Experiences.</p>
+            <p class="footer-tagline">micrabbit · 把AI变成产品</p>
           </div>
           <div class="footer-right">
             <div class="footer-links">
