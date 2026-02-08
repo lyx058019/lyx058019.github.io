@@ -1,69 +1,79 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
 
 :root {
-  /* Brand Guidelines: Modern Swiss / Neo-Brutalism influenced */
-  --pk-color-primary: #ff4d00; /* International Orange - High Energy */
-  --pk-color-bg: #f0f0f2; /* Zinc 100/200 - more distinct from white */
+  /* Brand Guidelines: Deep Blue-Purple Theme (Professional + Innovation) */
+  --pk-color-primary: #6366f1; /* Indigo-500 */
+  --pk-color-bg: #fafafa; /* Neutral-50 - Micro-warm off-white */
   --pk-color-bg-card: #ffffff;
-  --pk-color-text-primary: #09090b; /* Zinc 950 */
-  --pk-color-text-secondary: #71717a;
-  --pk-border-color: #e4e4e7;
+  --pk-color-text-primary: #1e293b; /* Slate-800 */
+  --pk-color-text-secondary: #64748b; /* Slate-500 */
+  --pk-border-color: #e2e8f0; /* Slate-200 */
+  --pk-color-surface-strong: #1e1b4b; /* Indigo-950 */
+  --pk-color-text-on-strong: #ffffff;
+  --pk-color-text-on-strong-muted: color-mix(in srgb, var(--pk-color-text-on-strong), transparent 30%);
+  --pk-color-border-on-strong: color-mix(in srgb, var(--pk-color-text-on-strong), transparent 80%);
+  --pk-shadow-soft: rgba(2, 6, 23, 0.18);
+  --pk-shadow-xs: rgba(2, 6, 23, 0.06);
+  --pk-grid-pattern: rgba(99, 102, 241, 0.05);
 
   --primary-gradient: linear-gradient(
     135deg,
-    #ff4d00 0%,
-    #ff8c00 100%
-  ); /* Subtle warmth */
+    #6366f1 0%,
+    #8b5cf6 100%
+  ); /* Indigo to Violet */
 
-  --glass-bg: rgba(255, 255, 255, 0.85); /* Frostier, less transparent */
-  --glass-border: rgba(0, 0, 0, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --pk-ambient-1: rgba(99, 102, 241, 0.08);
+  --pk-ambient-2: rgba(139, 92, 246, 0.08);
+  --pk-card-glow: rgba(2, 6, 23, 0.1);
 
   --section-spacing: 120px;
   --border-radius-xs: 4px;
   --border-radius-sm: 8px;
-  --border-radius-lg: 12px; /* Tighter curves */
+  --border-radius-lg: 16px; /* Modern smooth curve */
   --border-radius-xl: 24px;
 
-  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Snappy Apple-like ease */
+  --transition-smooth: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1); /* Softer ease */
 
   /* Overwrite Element Plus vars */
   --el-color-primary: var(--pk-color-primary);
-  --el-color-primary-light-3: #ff824d;
-  --el-color-primary-light-5: #ffa47d;
-  --el-color-primary-light-7: #ffc4ab;
-  --el-color-primary-light-9: #ffece5;
-  --el-color-primary-dark-2: #cc3d00;
+  --el-color-primary-light-3: color-mix(in srgb, var(--pk-color-primary), white 30%);
+  --el-color-primary-light-5: color-mix(in srgb, var(--pk-color-primary), white 50%);
+  --el-color-primary-light-7: color-mix(in srgb, var(--pk-color-primary), white 70%);
+  --el-color-primary-light-9: color-mix(in srgb, var(--pk-color-primary), white 90%);
+  --el-color-primary-dark-2: color-mix(in srgb, var(--pk-color-primary), black 20%);
 
   --el-bg-color-page: var(--pk-color-bg);
   --el-text-color-primary: var(--pk-color-text-primary);
 }
 
 .bg-hero-grid {
-  background-size: 50px 50px;
+  background-size: 40px 40px;
   background-image:
-    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    linear-gradient(to right, var(--pk-grid-pattern) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--pk-grid-pattern) 1px, transparent 1px);
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
 }
 
 html.dark .bg-hero-grid {
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, var(--pk-grid-pattern) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--pk-grid-pattern) 1px, transparent 1px);
 }
 
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 20px;
+  gap: 24px; /* More breathing room */
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
   @media (min-width: 992px) {
     grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 240px;
+    grid-auto-rows: 260px; /* Slightly taller */
     grid-template-rows: none;
   }
 }
@@ -80,27 +90,34 @@ html.dark .bg-hero-grid {
   position: relative;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
-    border-color: var(--pk-color-text-primary);
-    z-index: 10;
+    transform: translateY(-2px); /* Reduced movement */
+    box-shadow: 0 8px 20px -12px var(--pk-shadow-soft); /* Softer shadow */
+    border-color: var(--pk-color-primary); /* Subtle highlight */
+    z-index: 5;
   }
 }
 
 html.dark {
-  --pk-color-bg: #050505; /* Zinc 950 - Deep Space */
-  --pk-color-bg-card: #121212; /* Zinc 900 */
-  --pk-color-text-primary: #fafafa;
-  --pk-color-text-secondary: #a1a1aa;
-  --pk-border-color: #27272a;
+  --pk-color-bg: #0f172a; /* Slate-900 */
+  --pk-color-bg-card: #1e293b; /* Slate-800 */
+  --pk-color-text-primary: #f1f5f9; /* Slate-100 */
+  --pk-color-text-secondary: #94a3b8; /* Slate-400 */
+  --pk-border-color: #334155; /* Slate-700 */
+  --pk-color-surface-strong: #111827; /* Slate-900 */
+  --pk-color-text-on-strong: #f8fafc;
+  --pk-color-text-on-strong-muted: color-mix(in srgb, var(--pk-color-text-on-strong), transparent 30%);
+  --pk-color-border-on-strong: color-mix(in srgb, var(--pk-color-text-on-strong), transparent 80%);
+  --pk-shadow-soft: rgba(2, 6, 23, 0.4);
+  --pk-shadow-xs: rgba(2, 6, 23, 0.14);
+  --pk-grid-pattern: rgba(255, 255, 255, 0.03);
 
-  /* Ambient Colors for Pro Max Vibe */
-  --pk-ambient-1: rgba(255, 77, 0, 0.08); /* Warm */
-  --pk-ambient-2: rgba(79, 70, 229, 0.08); /* Cool Indigo */
-  --pk-card-glow: rgba(255, 255, 255, 0.03);
+  /* Ambient Colors */
+  --pk-ambient-1: rgba(99, 102, 241, 0.15); /* Indigo */
+  --pk-ambient-2: rgba(139, 92, 246, 0.15); /* Violet */
+  --pk-card-glow: rgba(148, 163, 184, 0.2);
 
-  --glass-bg: rgba(9, 9, 11, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(15, 23, 42, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.1);
 
   --el-bg-color-page: var(--pk-color-bg);
   --el-text-color-primary: var(--pk-color-text-primary);
@@ -123,7 +140,7 @@ body {
     radial-gradient(circle at 85% 30%, var(--pk-ambient-2), transparent 40%);
   background-attachment: fixed;
 
-  line-height: 1.75;
+  line-height: 1.8; /* Chinese readability */
   -webkit-font-smoothing: antialiased;
   letter-spacing: -0.01em;
 
@@ -190,12 +207,12 @@ h6 {
   background-color: var(--pk-color-bg-card) !important;
   border-radius: var(--border-radius-lg) !important;
   transition: var(--transition-smooth) !important;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 1px 2px 0 var(--pk-shadow-xs) !important;
   overflow: hidden;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px -12px var(--pk-shadow-soft) !important;
     border-color: var(--pk-color-primary) !important;
   }
 }
@@ -273,14 +290,4 @@ h6 {
   }
 }
 
-/* Base Card enhancements */
-.el-card {
-  border-radius: var(--border-radius-lg) !important;
-  border: 1px solid var(--el-border-color-lighter) !important;
-  transition: var(--transition-smooth) !important;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1) !important;
-  }
-}
+/* Base Card enhancements (handled above) */

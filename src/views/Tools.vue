@@ -26,6 +26,9 @@ const openTool = (path: string) => {
     <div class="page-header">
       <h1 class="page-title">在线工具箱</h1>
       <p class="page-subtitle">开发者常用的便捷小工具集合</p>
+      <div class="tools-intro-area">
+        <p class="intro-text">更多 AI 生产力工具即将上线...</p>
+      </div>
     </div>
 
     <!-- Search Section -->
@@ -44,7 +47,9 @@ const openTool = (path: string) => {
         <el-card class="tool-card pk-tool-card" shadow="hover" @click="openTool(tool.path)">
           <div class="tool-content">
             <div class="tool-icon"
-              :style="{ backgroundColor: tool.color ? tool.color + '15' : 'var(--pk-color-primary)15', color: tool.color || 'var(--pk-color-primary)' }">
+              :style="{
+                '--tool-color': tool.color || 'var(--pk-color-primary)',
+              }">
               <component :is="tool.icon" />
             </div>
             <div class="tool-info">
@@ -72,6 +77,22 @@ const openTool = (path: string) => {
   text-align: left;
   /* Swiss alignment */
   margin-bottom: 60px;
+
+  .tools-intro-area {
+    margin-top: 24px;
+    padding: 16px 24px;
+    background: var(--pk-color-bg-card);
+    border: 1px dashed var(--pk-border-color);
+    border-radius: var(--border-radius-sm);
+    display: inline-block;
+
+    .intro-text {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--pk-color-text-secondary);
+      font-weight: 500;
+    }
+  }
 }
 
 .site-controls {
@@ -112,9 +133,9 @@ const openTool = (path: string) => {
   border-radius: var(--border-radius-lg);
 
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     border-color: var(--pk-color-primary);
-    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 22px -12px var(--pk-shadow-soft);
   }
 
   .tool-content {
@@ -132,6 +153,9 @@ const openTool = (path: string) => {
     justify-content: center;
     font-size: 28px;
     flex-shrink: 0;
+    background: color-mix(in srgb, var(--tool-color), transparent 88%);
+    background-color: var(--pk-ambient-1);
+    color: var(--tool-color);
   }
 
   .tool-info {
