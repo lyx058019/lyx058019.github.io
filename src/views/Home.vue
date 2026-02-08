@@ -2,7 +2,7 @@
 import postsIndex from '@/data/posts.index.json'
 import { projectList } from '@/data/projects'
 import { tools } from '@/data/tools'
-import { ArrowRight, Monitor, Promotion, Right } from '@element-plus/icons-vue'
+import { ArrowRight, Monitor, Promotion } from '@element-plus/icons-vue'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -12,17 +12,15 @@ const router = useRouter()
 const mainProject = computed(() => projectList.find(p => p.isFeatured) || projectList[0])
 
 type PostMeta = { id: string; title: string; date: string; description: string; tags: string[] }
-const latestPost = computed<PostMeta | null>(() => {
+const latestPosts = computed<PostMeta[]>(() => {
   const list = (Array.isArray(postsIndex) ? postsIndex : [])
-  if (!list.length) return null
-  const p = list[0] as any
-  return {
+  return list.slice(0, 3).map((p: any) => ({
     id: typeof p?.id === 'string' ? p.id : '',
     title: typeof p?.title === 'string' ? p.title : 'Untitled',
     date: typeof p?.date === 'string' ? p.date : '',
     description: typeof p?.description === 'string' ? p.description : '',
     tags: Array.isArray(p?.tags) ? p.tags.filter((t: any) => typeof t === 'string') : [],
-  }
+  }))
 })
 
 // Get top 5 tools to fill the bento grid perfectly (4x3 layout)
@@ -56,69 +54,100 @@ const goTool = (path: string) => router.push(path)
       </div>
     </section>
 
-    <!-- Bento Grid Dashboard -->
-    <section class="dashboard">
-      <div class="bento-grid">
+    <section class="home-sections">
+      <div class="section-block identity-block">
+        <div class="identity-main">
+          <p class="identity-title">AI 工具创造者 · 全栈工程师</p>
+          <p class="identity-desc">用全栈能力把 AI 落地成可用的工具和产品，专注 RAG 与工程化。</p>
+        </div>
+        <div class="identity-side">
+          <div class="identity-pill">内容冷启动 · 两周一篇</div>
+          <div class="identity-note">博客是基地，内容先做深。</div>
+        </div>
+      </div>
 
-        <!-- Large Block: Featured Project -->
-        <div class="bento-card bento-item-large" v-if="mainProject" @click="window.open(mainProject.link, '_blank')">
-          <div class="card-content project-highlight">
-            <div class="card-header">
-              <el-tag type="warning" effect="dark" class="pk-tag-indicator">FEATURED PROJECT</el-tag>
-              <el-icon class="action-icon">
-                <ArrowRight />
-              </el-icon>
+      <div class="section-block category-block">
+        <div class="category-card">
+          <div class="category-head">
+            <span class="category-tag">AI 产品实战</span>
+            <el-icon>
+              <ArrowRight />
+            </el-icon>
+          </div>
+          <p>选型、架构、工程化与踩坑。记录从0到1的产品落地。</p>
+          <el-button text class="category-action" @click="goBlog">进入文章</el-button>
+        </div>
+        <div class="category-card">
+          <div class="category-head">
+            <span class="category-tag">AI 工具与工作流</span>
+            <el-icon>
+              <ArrowRight />
+            </el-icon>
+          </div>
+          <p>提示词工程、工具链评测、AI工作流配置与效率实践。</p>
+          <el-button text class="category-action" @click="goBlog">进入文章</el-button>
+        </div>
+      </div>
+
+      <div class="section-block post-block">
+        <div class="section-title">
+          <h2>最新文章</h2>
+          <el-button text @click="goBlog">查看全部</el-button>
+        </div>
+        <div class="post-list">
+          <div class="post-card" v-for="post in latestPosts" :key="post.id" @click="goPost(post.id)">
+            <div class="post-meta">
+              <span>{{ new Date(post.date).toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }) }}</span>
+              <span v-if="post.tags?.length">{{ post.tags[0] }}</span>
             </div>
-            <div class="project-info">
-              <h3>{{ mainProject.title }}</h3>
-              <p>{{ mainProject.description }}</p>
-              <div class="tech-stack">
-                <span v-for="t in mainProject.tech" :key="t">{{ t }}</span>
-              </div>
-            </div>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.description }}</p>
           </div>
         </div>
+      </div>
 
-        <!-- Medium Block: Latest Thought -->
-        <div class="bento-card bento-item-tall" v-if="latestPost" @click="goPost(latestPost.id)">
-          <div class="card-content post-highlight">
-            <div class="card-header">
-              <span class="date-label">{{ new Date(latestPost.date).toLocaleDateString('en-US', {
-                month: 'short', day:
-                  'numeric'
-              }) }}</span>
-              <el-icon class="action-icon">
-                <Right />
-              </el-icon>
+      <div class="section-block tool-block">
+        <div class="section-title">
+          <h2>在线工具</h2>
+          <el-button text @click="goTools">进入工具箱</el-button>
+        </div>
+        <div class="tool-grid">
+          <div class="tool-item" v-for="tool in quickTools" :key="tool.id" @click="goTool(tool.path)">
+            <div class="tool-icon">
+              <component :is="tool.icon" />
             </div>
-            <div class="post-info">
-              <div class="label">LATEST THOUGHT</div>
-              <h3>{{ latestPost.title }}</h3>
-              <p>{{ latestPost.description }}</p>
+            <div class="tool-info">
+              <span class="tool-name">{{ tool.name }}</span>
             </div>
           </div>
-        </div>
-
-        <!-- Small Blocks: Tools -->
-        <div class="bento-card tool-shortcut" v-for="tool in quickTools" :key="tool.id" @click="goTool(tool.path)">
-          <div class="tool-icon-sm">
-            <component :is="tool.icon" />
-          </div>
-          <span class="tool-name">{{ tool.name }}</span>
-        </div>
-
-        <!-- See More Block -->
-        <div class="bento-card more-link" @click="goTools">
-          <div class="more-content">
-            <div class="circle-btn">
+          <div class="tool-item tool-more" @click="goTools">
+            <div class="tool-icon">
               <el-icon>
                 <Monitor />
               </el-icon>
             </div>
-            <span>工具箱</span>
+            <span class="tool-name">更多工具</span>
           </div>
         </div>
+      </div>
 
+      <div class="section-block project-block" v-if="mainProject">
+        <div class="section-title">
+          <h2>正在做的产品</h2>
+        </div>
+        <div class="project-card" @click="window.open(mainProject.link, '_blank')">
+          <div class="project-head">
+            <el-tag type="warning" effect="dark" class="pk-tag-indicator">FEATURED PROJECT</el-tag>
+            <el-icon>
+              <ArrowRight />
+            </el-icon>
+          </div>
+          <h3>{{ mainProject.title }}</h3>
+          <p>{{ mainProject.description }}</p>
+          <div class="tech-stack">
+            <span v-for="t in mainProject.tech" :key="t">{{ t }}</span>
+          </div>
+        </div>
       </div>
     </section>
   </div>
@@ -134,7 +163,7 @@ const goTool = (path: string) => router.push(path)
   display: flex;
   align-items: center;
   position: relative;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 
   .hero-content {
     max-width: 800px;
@@ -183,57 +212,230 @@ const goTool = (path: string) => router.push(path)
   }
 }
 
-/* Bento Grid Specifics */
-.bento-grid {
-  /* Layout handled by global .bento-grid in main.scss */
+
+.home-sections {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 0 20px;
 }
 
-/* Specific Card Styles */
-.bento-card {
-  cursor: pointer;
+.section-block {
+  border: 1px solid var(--pk-border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 28px 32px;
+  background: var(--pk-color-bg-card);
+}
 
-  .card-content {
-    padding: 32px;
-    height: 100%;
+.identity-block {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  .identity-title {
+    margin: 0 0 8px;
+    font-weight: 700;
+    color: var(--pk-color-text-primary);
+  }
+
+  .identity-desc {
+    margin: 0;
+    color: var(--pk-color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .identity-side {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    box-sizing: border-box;
+    gap: 8px;
+    align-items: flex-start;
+    color: var(--pk-color-text-secondary);
+    font-size: 0.9rem;
   }
 
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  .identity-pill {
+    padding: 6px 12px;
+    border-radius: 99px;
+    border: 1px solid var(--pk-border-color);
+    color: var(--pk-color-primary);
+    font-weight: 600;
   }
 }
 
-.bento-item-large {
-  grid-column: span 1;
+.category-block {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 
-  @media (min-width: 992px) {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
+  .category-card {
+    border: 1px solid var(--pk-border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 20px 24px;
+    transition: var(--transition-smooth);
 
-  background: var(--pk-color-surface-strong);
-  /* Dark Card for Feature */
-  border: none;
+    &:hover {
+      transform: translateY(-2px);
+      border-color: var(--pk-color-primary);
+    }
 
-  .project-info {
-    h3 {
-      font-size: 2.5rem;
-      color: var(--pk-color-text-on-strong);
-      margin: 0 0 16px;
-      line-height: 1;
-      letter-spacing: -0.03em;
+    .category-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .category-tag {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--pk-color-text-primary);
     }
 
     p {
+      margin: 0 0 16px;
+      color: var(--pk-color-text-secondary);
+      line-height: 1.6;
+    }
+
+    .category-action {
+      padding: 0;
+      font-weight: 600;
+    }
+  }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+}
+
+.post-block {
+  .post-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .post-card {
+    border: 1px solid var(--pk-border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    background: var(--pk-color-bg-card);
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: var(--pk-color-primary);
+    }
+
+    .post-meta {
+      display: flex;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--pk-color-text-secondary);
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      line-height: 1.4;
+      color: var(--pk-color-text-primary);
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--pk-color-text-secondary);
+      line-height: 1.6;
+    }
+  }
+}
+
+.tool-block {
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .tool-item {
+    border: 1px solid var(--pk-border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: var(--pk-color-primary);
+    }
+  }
+
+  .tool-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--pk-ambient-1);
+    color: var(--pk-color-primary);
+    font-size: 20px;
+  }
+
+  .tool-name {
+    font-weight: 600;
+  }
+
+  .tool-more {
+    border-style: dashed;
+  }
+}
+
+.project-block {
+  .project-card {
+    border: 1px solid var(--pk-border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 24px 28px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    background: var(--pk-color-surface-strong);
+    color: var(--pk-color-text-on-strong);
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: var(--pk-color-primary);
+    }
+
+    .project-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      margin: 0 0 12px;
+      font-size: 2rem;
+    }
+
+    p {
+      margin: 0 0 16px;
       color: var(--pk-color-text-on-strong-muted);
-      font-size: 1.1rem;
-      margin-bottom: 24px;
     }
   }
 
@@ -258,136 +460,6 @@ const goTool = (path: string) => router.push(path)
     font-weight: 800;
     letter-spacing: 0.05em;
   }
-
-  .action-icon {
-    font-size: 24px;
-    color: var(--pk-color-text-on-strong);
-    transform: rotate(-45deg);
-    transition: transform 0.3s;
-  }
-
-  &:hover .action-icon {
-    transform: rotate(0deg);
-  }
-}
-
-.bento-item-tall {
-  @media (min-width: 992px) {
-    grid-column: span 1;
-    grid-row: span 2;
-  }
-
-  .post-highlight {
-    background: var(--pk-color-bg-card);
-  }
-
-  .date-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--pk-color-text-secondary);
-  }
-
-  .label {
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    color: var(--pk-color-primary);
-    margin-bottom: 12px;
-    text-transform: uppercase;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-    line-height: 1.1;
-    margin-bottom: 12px;
-    letter-spacing: -0.02em;
-
-    /* Multiline truncation */
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  p {
-    font-size: 0.95rem;
-    color: var(--pk-color-text-secondary);
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .action-icon {
-    transition: transform 0.3s;
-  }
-
-  &:hover .action-icon {
-    transform: translateX(4px);
-  }
-}
-
-.tool-shortcut {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  gap: 16px;
-  text-align: center;
-
-  .tool-icon-sm {
-    font-size: 32px;
-    color: var(--pk-color-text-primary);
-    transition: transform 0.3s;
-  }
-
-  .tool-name {
-    font-weight: 700;
-    font-size: 0.95rem;
-  }
-
-  &:hover {
-    .tool-icon-sm {
-      color: var(--pk-color-primary);
-      transform: scale(1.1);
-    }
-  }
-}
-
-.more-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border-style: dashed;
-
-  .more-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    color: var(--pk-color-text-secondary);
-  }
-
-  .circle-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 1px solid var(--pk-border-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--pk-color-bg-card);
-    transition: var(--transition-smooth);
-    font-size: 20px;
-  }
-
-  &:hover .circle-btn {
-    border-color: var(--pk-color-primary);
-    color: var(--pk-color-primary);
-    transform: rotate(90deg);
-  }
 }
 
 @media (max-width: 768px) {
@@ -395,21 +467,25 @@ const goTool = (path: string) => router.push(path)
     font-size: 3rem;
   }
 
-  .bento-item-large {
-    .project-info h3 {
-      font-size: 1.5rem;
-    }
+  .home-sections {
+    gap: 20px;
   }
 
-  /* Reset grid specific layout on mobile so everything stacks */
-  /* This is handled by default grid or media queries in main.scss,
-     but we ensure specific item spans are reset if needed.
-     Currently main.scss handles columns, but spans might persist.
-  */
-  .bento-item-large,
-  .bento-item-tall {
-    grid-column: span 1;
-    grid-row: span 1;
+  .identity-block {
+    flex-direction: column;
+  }
+
+  .category-block {
+    grid-template-columns: 1fr;
+  }
+
+  .post-block .post-list,
+  .tool-block .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-block .project-card h3 {
+    font-size: 1.5rem;
   }
 }
 </style>
