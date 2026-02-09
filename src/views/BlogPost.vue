@@ -171,7 +171,7 @@ watchEffect((onCleanup) => {
         : []
 
       applySeo({
-        title: fmTitle ? `${fmTitle} | 博客 | LYX.DEV` : undefined,
+        title: fmTitle ? `${fmTitle} | 博客 | MicRabbit` : undefined,
         description: fmDesc,
         canonicalPath: `/blog/${id}`,
         type: 'article',

@@ -49,7 +49,7 @@ const goToPost = (id: string) => {
 
     <div class="blog-intro">
       <div class="intro-left">
-        <p class="intro-title">micrabbit · 把AI变成产品</p>
+        <p class="intro-title">MicRabbit · 把AI变成产品</p>
         <p class="intro-desc">从0到1做AI工具：实战、踩坑、工具链与可复用的工程方法。</p>
       </div>
       <div class="intro-right">

@@ -1,7 +1,7 @@
 /*
  * @Author: liuyanxin
  * @Date: 2026-01-14 10:17:19
- * @LastEditTime: 2026-01-14 10:17:31
+ * @LastEditTime: 2026-02-09 11:11:35
  * @LastEditors: liuyanxin
  * @Description:
  * @FilePath: /lyx058019.github.io/src/router/index.ts
@@ -23,8 +23,8 @@ const router = createRouter({
           name: "home",
           component: Home,
           meta: {
-            title: "LYX.DEV | 前端工程化与工具箱",
-            description: "lyx058019 的个人网站：博客、项目与在线工具箱。",
+            title: "MicRabbit | 把AI变成产品",
+            description: "MicRabbit 的个人网站：博客、项目与在线工具箱。",
             canonicalPath: "/",
           },
         },
@@ -33,7 +33,7 @@ const router = createRouter({
           name: "projects",
           component: () => import("../views/Projects.vue"),
           meta: {
-            title: "项目 | LYX.DEV",
+            title: "项目 | MicRabbit",
             description: "项目作品与技术栈概览。",
             canonicalPath: "/projects",
           },
@@ -43,7 +43,7 @@ const router = createRouter({
           name: "blog",
           component: () => import("../views/Blog.vue"),
           meta: {
-            title: "博客 | LYX.DEV",
+            title: "博客 | MicRabbit",
             description:
               "记录技术与思考，包含前端工程化、Vue、TypeScript 等主题。",
             canonicalPath: "/blog",
@@ -54,7 +54,7 @@ const router = createRouter({
           name: "tools",
           component: () => import("../views/Tools.vue"),
           meta: {
-            title: "工具箱 | LYX.DEV",
+            title: "工具箱 | MicRabbit",
             description:
               "在线开发者工具箱：JSON、Base64、URL、Hash、二维码、时间戳、UUID 等。",
             canonicalPath: "/tools",
@@ -110,7 +110,7 @@ const router = createRouter({
           name: "blog-post",
           component: () => import("../views/BlogPost.vue"),
           meta: {
-            title: "博客文章 | LYX.DEV",
+            title: "博客文章 | MicRabbit",
             description: "博客文章详情。",
           },
         },

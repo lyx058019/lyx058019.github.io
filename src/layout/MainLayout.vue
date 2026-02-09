@@ -30,7 +30,7 @@ const handleSelect = (key: string) => {
       <el-header class="header">
         <div class="header-inner">
           <div class="logo" @click="router.push('/')">
-            <span class="logo-text">LYX</span>
+            <span class="logo-text">MicRabbit</span>
           </div>
 
           <el-menu :default-active="activeIndex" mode="horizontal" class="nav-menu" @select="handleSelect"
@@ -42,9 +42,9 @@ const handleSelect = (key: string) => {
 
           <div class="header-right">
             <el-button :icon="isDark ? Moon : Sunny" circle plain @click="toggleDark" class="theme-toggle" />
-            <el-link href="https://github.com/lyx058019" target="_blank" :underline="false" class="github-link">
-              GitHub
-            </el-link>
+          <el-link href="https://github.com/lyx058019" target="_blank" :underline="false" class="github-link">
+            GitHub
+          </el-link>
           </div>
         </div>
       </el-header>
@@ -60,8 +60,8 @@ const handleSelect = (key: string) => {
       <footer class="site-footer">
         <div class="footer-inner">
           <div class="footer-left">
-            <div class="footer-brand">LYX.DEV</div>
-            <p class="footer-tagline">micrabbit · 把AI变成产品</p>
+            <div class="footer-brand">MicRabbit</div>
+            <p class="footer-tagline">MicRabbit · 把AI变成产品</p>
           </div>
           <div class="footer-right">
             <div class="footer-links">
