@@ -31,6 +31,11 @@ const goProjects = () => router.push('/projects')
 const goTools = () => router.push('/tools')
 const goPost = (id: string) => router.push(`/blog/${id}`)
 const goTool = (path: string) => router.push(path)
+const openExternal = (url: string) => {
+  if (typeof window !== 'undefined') {
+    window.open(url, '_blank')
+  }
+}
 </script>
 
 <template>
@@ -135,7 +140,7 @@ const goTool = (path: string) => router.push(path)
         <div class="section-title">
           <h2>正在做的产品</h2>
         </div>
-        <div class="project-card" @click="window.open(mainProject.link, '_blank')">
+        <div class="project-card" @click="openExternal(mainProject.link)">
           <div class="project-head">
             <el-tag type="warning" effect="dark" class="pk-tag-indicator">FEATURED PROJECT</el-tag>
             <el-icon>
