@@ -31,10 +31,12 @@ const goProjects = () => router.push('/projects')
 const goTools = () => router.push('/tools')
 const goPost = (id: string) => router.push(`/blog/${id}`)
 const goTool = (path: string) => router.push(path)
-const openExternal = (url: string) => {
-  if (typeof window !== 'undefined') {
-    window.open(url, '_blank')
+const openExternal = (url?: string) => {
+  if (!url || typeof window === 'undefined') {
+    return
   }
+
+  window.open(url, '_blank')
 }
 </script>
 
@@ -48,7 +50,7 @@ const openExternal = (url: string) => {
         <div class="hero-badge">
           Available for collaboration
         </div>
-        <h1 class="animate-drop">用代码把AI<br><span class="highlight">从论文变成产品</span></h1>
+        <h1 class="animate-drop">MicRabbit<br><span class="highlight">把AI变成产品</span></h1>
         <p class="subtitle animate-fade">AI 工具创造者 · 全栈工程师<br>专注将前沿技术落地为可用产品与工作流。</p>
 
         <div class="hero-actions">
