@@ -69,6 +69,9 @@ const handleSelect = (key: string) => {
               <el-divider direction="vertical" />
               <span>© 2026</span>
             </div>
+            <div class="footer-icp">
+              <a href="https://beian.miit.gov.cn/" target="_blank">辽ICP备2026003242号-1</a>
+            </div>
           </div>
         </div>
       </footer>
@@ -202,6 +205,21 @@ const handleSelect = (key: string) => {
       color: var(--pk-color-text-primary);
       text-decoration: none;
       font-weight: 600;
+
+      &:hover {
+        color: var(--pk-color-primary);
+      }
+    }
+  }
+
+  .footer-icp {
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: var(--pk-color-text-secondary);
+
+    a {
+      color: var(--pk-color-text-secondary);
+      text-decoration: none;
 
       &:hover {
         color: var(--pk-color-primary);
