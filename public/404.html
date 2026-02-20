@@ -2,12 +2,12 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>Redirecting...</title>
-  <script>
-    window.location.replace('/');
-  </script>
+  <title>Loading...</title>
 </head>
 <body>
-  <p>Redirecting to <a href="/">home page</a>...</p>
+  <script>
+    // 保留原始路径，让 Vue Router 处理路由
+    window.location.replace(window.location.pathname + window.location.search + window.location.hash);
+  </script>
 </body>
 </html>
