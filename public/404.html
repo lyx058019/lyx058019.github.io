@@ -2,10 +2,23 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <!-- 直接加载 index.html，让 Vue Router 处理路由 -->
-  <meta http-equiv="refresh" content="0;url=/index.html">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading...</title>
 </head>
 <body>
-  <p>Loading...</p>
+  <script>
+    // 动态加载 index.html 内容，保持当前 URL 不变
+    fetch('/index.html')
+      .then(function(response) { return response.text(); })
+      .then(function(html) {
+        document.open();
+        document.write(html);
+        document.close();
+      })
+      .catch(function() {
+        // 如果失败，跳转到首页
+        window.location.href = '/';
+      });
+  </script>
 </body>
 </html>
