@@ -6,8 +6,15 @@
 </head>
 <body>
   <script>
-    // 保留原始路径，让 Vue Router 处理路由
-    window.location.replace(window.location.pathname + window.location.search + window.location.hash);
+    // 如果是直接加载 404.html 本身（没有路径），则跳转到首页
+    if (window.location.pathname === '/404.html' || window.location.pathname === '/') {
+      window.location.replace('/');
+    } else {
+      // 有路径时，重定向到 index.html 让 Vue Router 处理
+      // 使用 search 和 hash 保留查询参数和锚点
+      var target = '/index.html' + window.location.search + window.location.hash;
+      window.location.replace(target);
+    }
   </script>
 </body>
 </html>
