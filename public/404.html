@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+  <script>
+    var href = window.location.href;
+    var base = "/";
+    var url = base + "index.html";
+    if (href.indexOf("?") !== -1) {
+      url += href.substring(href.indexOf("?"));
+    }
+    window.location.replace(url);
+  </script>
+</head>
+<body>
+  <p>Redirecting to <a href="/">home page</a>...</p>
+</body>
+</html>
