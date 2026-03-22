@@ -1,45 +1,65 @@
 [
   {
+    "id": "ai-team-one-person-company-2026",
+    "title": "我用AI团队一个人开了一家公司，月入3万",
+    "date": "2026-03-22",
+    "description": "不夸张地说，AI团队让我一个人能干三个人的活。说说我是怎么做到的，以及目前真实遇到的坑。",
+    "tags": ["一人公司", "AI团队", "创业"]
+  },
+  {
+    "id": "one-person-content-marketing-2026",
+    "title": "2026年了，一个人怎么做内容营销",
+    "date": "2026-03-22",
+    "description": "平台越来越多，用户注意力越来越分散，一个人做内容营销还能做吗？ 能，但方法必须变。",
+    "tags": ["内容营销", "一人公司", "小红书", "公众号"]
+  },
+  {
+    "id": "why-ai-team-not-single-ai-tool",
+    "title": "AI写作工具这么多，为什么我选择用AI团队",
+    "date": "2026-03-22",
+    "description": "ChatGPT、Claude、DeepSeek……AI写作工具越来越多，但为什么我还是选择用一套AI团队而不是一个AI工具？",
+    "tags": ["AI工具", "AI团队", "ChatGPT", "效率"]
+  },
+  {
+    "id": "one-person-brand-strategy-with-ai",
+    "title": "从0到1：一个人如何用AI完成品牌全案",
+    "date": "2026-03-22",
+    "description": "品牌全案听起来是大公司才会做的事。其实一个人+AI，完全可以完成一个像样的品牌全案。说说我的完整路径。",
+    "tags": ["品牌", "一人公司", "AI工具", "创业"]
+  },
+  {
+    "id": "why-one-person-company-is-future-2026",
+    "title": "为什么一人公司是未来三年最好的创业模式",
+    "date": "2026-03-22",
+    "description": "不是讲概念，说说现实。一个人+AI+自媒体，可能是未来三年门槛最低、成功率最高的创业路径。",
+    "tags": ["一人公司", "创业", "AI", "自媒体"]
+  },
+  {
     "id": "frontend-engineering-checklist",
     "title": "前端工程化自检清单（个人项目）",
     "date": "2026-01-26",
     "description": "一个偏实用的 checklist：类型、构建、测试、代码质量、发布与可维护性。",
-    "tags": [
-      "工程化",
-      "TypeScript",
-      "质量"
-    ]
+    "tags": ["工程化", "TypeScript", "质量"]
   },
   {
     "id": "seo-sitemap-rss",
     "title": "网站 SEO 基础：Sitemap 与 RSS",
     "date": "2026-01-25",
     "description": "用构建脚本从 Markdown frontmatter 生成 sitemap.xml 与 rss.xml，让搜索与订阅更可靠。",
-    "tags": [
-      "SEO",
-      "RSS",
-      "Sitemap"
-    ]
+    "tags": ["SEO", "RSS", "Sitemap"]
   },
   {
     "id": "markdown-blog-vue-vite",
     "title": "用 Markdown 搭一个轻量博客（Vue + Vite）",
     "date": "2026-01-24",
     "description": "记录一个最小可用的 Markdown 博客：路由、frontmatter、按需加载与目录生成。",
-    "tags": [
-      "Vue",
-      "Vite",
-      "Markdown"
-    ]
+    "tags": ["Vue", "Vite", "Markdown"]
   },
   {
     "id": "hello-world",
     "title": "我的第一篇博客文章",
     "date": "2026-01-22",
     "description": "欢迎来到我的个人博客，这是使用 Markdown 构建的第一篇文章。",
-    "tags": [
-      "Vue",
-      "Life"
-    ]
+    "tags": ["Vue", "Life"]
   }
 ]
