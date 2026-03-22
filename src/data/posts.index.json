@@ -1,5 +1,19 @@
 [
   {
+    "id": "ai-employee-services",
+    "title": "AI员工团队服务",
+    "date": "2026-03-22",
+    "description": "不是AI工具，是AI员工团队。按月付费，包月服务，无需管理，稳定交付。",
+    "tags": ["AI服务", "内容生产", "市场调研", "品牌策划"]
+  },
+  {
+    "id": "how-i-use-ai-team-for-content",
+    "title": "我是如何用AI团队一个人做内容的",
+    "date": "2026-03-22",
+    "description": "不招人、不加班、不买昂贵工具。我的AI内容团队工作流全拆解。",
+    "tags": ["AI团队", "内容生产", "一人公司", "效率工具"]
+  },
+  {
     "id": "ai-team-one-person-company-2026",
     "title": "我用AI团队一个人开了一家公司，月入3万",
     "date": "2026-03-22",
