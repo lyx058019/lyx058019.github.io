@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import postsIndex from '@/data/posts.index.json'
 import { applySeo } from '@/seo/head'
-import { ArrowLeft, Promotion } from '@element-plus/icons-vue'
+import { ArrowLeft } from '@element-plus/icons-vue'
 import { useScroll } from '@vueuse/core'
 import { computed, nextTick, shallowRef, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+
+// Import monetization components
+import DonationSection from '@/components/common/DonationSection.vue'
+import AffiliationCard from '@/components/common/AffiliationCard.vue'
+import ArticleCTA from '@/components/common/ArticleCTA.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -225,12 +230,15 @@ const goBack = () => {
           </div>
 
           <!-- Product Recommendation Placeholder -->
-          <div class="product-placeholder">
-            <div class="ph-label">RECOMMENDED</div>
-            <div class="ph-box">
-              <el-icon><Promotion /></el-icon>
-              <span>Product Slot</span>
-            </div>
+          <div class="affiliation-section">
+            <div class="section-label">RECOMMENDED</div>
+            <AffiliationCard
+              title="Cursor AI"
+              description="AI 驱动的代码编辑器，提升编程效率"
+              affiliate-url="https://example.com/affiliate?ref=micrabbit"
+              badge="赞助商"
+              icon="Star"
+            />
           </div>
         </div>
       </aside>
@@ -281,6 +289,12 @@ const goBack = () => {
             </div>
           </div>
         </div>
+
+        <!-- Donation Section -->
+        <DonationSection />
+
+        <!-- Article CTA -->
+        <ArticleCTA :show-subscribe="true" />
 
         <div class="post-footer">
           <div class="post-nav">
@@ -646,49 +660,16 @@ const goBack = () => {
   }
 }
 
-/* Product Placeholder */
-.product-placeholder {
+/* Affiliation Section */
+.affiliation-section {
   margin-top: 40px;
-  border: 1px dashed var(--pk-border-color);
-  border-radius: var(--border-radius-lg);
-  padding: 24px;
-  background: var(--pk-color-bg-card);
-  transition: border-color 0.3s;
 
-  &:hover {
-    border-color: var(--pk-color-primary);
-  }
-
-  .ph-label {
+  .section-label {
     font-size: 0.75rem;
     font-weight: 700;
     color: var(--pk-color-text-secondary);
     letter-spacing: 0.1em;
     margin-bottom: 16px;
-  }
-
-  .ph-box {
-    height: 120px;
-    background: var(--pk-ambient-1);
-    border-radius: var(--border-radius-sm);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--pk-color-primary);
-    gap: 12px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    border: 1px solid transparent;
-    transition: all 0.3s;
-
-    &:hover {
-      background: var(--pk-ambient-2);
-    }
-
-    .el-icon {
-      font-size: 24px;
-    }
   }
 }
 

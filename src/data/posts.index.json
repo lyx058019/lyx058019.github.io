@@ -49,6 +49,20 @@
     "tags": ["一人公司", "创业", "AI", "自媒体"]
   },
   {
+    "id": "ai-vs-marketing-team-2026",
+    "title": "AI 能不能替代市场部？我的实测结论",
+    "date": "2026-03-22",
+    "description": "我让 AI 团队做了 3 个月市场营销，结论是：AI 能替代大部分执行工作，但有一件事 AI 永远替代不了人。",
+    "tags": ["AI", "市场营销", "一人公司", "实战"]
+  },
+  {
+    "id": "ai-oneperson-xiaohongshu-2026",
+    "title": "2026 年了，一个人怎么做小红书内容？",
+    "date": "2026-03-22",
+    "description": "日更、选题、标题、配图——一个人做小红书最大的坑不是内容，是效率。我用 AI 团队把内容生产时间压缩到 20 分钟。",
+    "tags": ["小红书", "AI", "内容营销", "一人公司"]
+  },
+  {
     "id": "frontend-engineering-checklist",
     "title": "前端工程化自检清单（个人项目）",
     "date": "2026-01-26",
@@ -68,12 +82,5 @@
     "date": "2026-01-24",
     "description": "记录一个最小可用的 Markdown 博客：路由、frontmatter、按需加载与目录生成。",
     "tags": ["Vue", "Vite", "Markdown"]
-  },
-  {
-    "id": "hello-world",
-    "title": "我的第一篇博客文章",
-    "date": "2026-01-22",
-    "description": "欢迎来到我的个人博客，这是使用 Markdown 构建的第一篇文章。",
-    "tags": ["Vue", "Life"]
   }
 ]

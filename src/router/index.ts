@@ -114,6 +114,16 @@ const router = createRouter({
             description: "博客文章详情。",
           },
         },
+        {
+          path: "consulting",
+          name: "consulting",
+          component: () => import("../views/Consulting.vue"),
+          meta: {
+            title: "咨询服务 | MicRabbit",
+            description: "AI 团队搭建咨询、一人一公司咨询 - 预约专业的 AI 产品落地指导。",
+            canonicalPath: "/consulting",
+          },
+        },
       ],
     },
   ],
