@@ -24,7 +24,7 @@
     "id": "one-person-content-marketing-2026",
     "title": "2026年了，一个人怎么做内容营销",
     "date": "2026-03-22",
-    "description": "平台越来越多，用户注意力越来越分散，一个人做内容营销还能做吗？ 能，但方法必须变。",
+    "description": "平台越来越多，用户注意力越来越分散，一个人做内容营销还能做吗？能，但方法必须变。",
     "tags": ["内容营销", "一人公司", "小红书", "公众号"]
   },
   {
@@ -61,6 +61,48 @@
     "date": "2026-03-22",
     "description": "日更、选题、标题、配图——一个人做小红书最大的坑不是内容，是效率。我用 AI 团队把内容生产时间压缩到 20 分钟。",
     "tags": ["小红书", "AI", "内容营销", "一人公司"]
+  },
+  {
+    "id": "ai-team-real-project-data-2026",
+    "title": "用AI团队开发一个完整产品需要多久？我们跑了5个项目的真实数据",
+    "date": "2026-03-26",
+    "description": "不是概念测试。是我们用AI团队实际完成的5个项目，告诉你真实耗时、真实成本、真实踩过的坑。",
+    "tags": ["AI团队", "开发效率", "一人公司", "真实数据", "产品开发"]
+  },
+  {
+    "id": "from-6-team-to-zero-ai-workflow-reveal",
+    "title": "我把团队从6个人裁到了0：一人公司AI工作流全公开",
+    "date": "2026-03-22",
+    "description": "不是标题党。真实复盘：从6人团队，到只有AI，到月入X万。我经历了什么，为什么这么做，以及真实踩过的坑。",
+    "tags": ["一人公司", "AI团队", "创业复盘", "工作流"]
+  },
+  {
+    "id": "local-image-model-value",
+    "title": "为什么我做内容服务一定要本地文生图模型",
+    "date": "2026-03-26",
+    "description": "不是技术炫技，是商业逻辑。告诉你为什么我坚持搭本地出图能力，以及它怎么帮我拿下第一个付费客户。",
+    "tags": ["AI服务", "内容生产", "图像生成", "电商", "本地部署"]
+  },
+  {
+    "id": "cursor-mcp-workflow-2026",
+    "title": "2026 年开发者标配：我的 Cursor + MCP 自动化工作流",
+    "date": "2026-03-07",
+    "description": "还在手动复制粘贴代码？分享我如何配置 MCP Server，让 AI 直接操作我的本地工具链。",
+    "tags": ["Cursor", "MCP", "自动化"]
+  },
+  {
+    "id": "rag-product-launch-week-1",
+    "title": "从 0 到 1：我如何用 AI 一周开发并上线 RAG 知识库",
+    "date": "2026-03-05",
+    "description": "拒绝空谈 AI。分享我如何利用 Vite + Supabase + LLM 在 7 天内构建出一个面向中小团队的私有知识库产品。",
+    "tags": ["AI", "RAG", "实战"]
+  },
+  {
+    "id": "openclaw-deploy-migration-guide",
+    "title": "3分钟迁移 OpenClaw 环境：openclaw-deploy 实战",
+    "date": "2026-03-22",
+    "description": "换服务器、重装系统、不想从头配置？用 openclaw-deploy 一键把整个 OpenClaw 环境打包带走，到新机器解压就能跑。",
+    "tags": ["OpenClaw", "DevOps", "自动化", "工具推荐"]
   },
   {
     "id": "frontend-engineering-checklist",
