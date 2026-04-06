@@ -2,6 +2,12 @@
 import { ref } from 'vue'
 import { Message, Coffee, Newsletter, Check } from '@element-plus/icons-vue'
 
+// ==================== 配置区 ====================
+// TODO: 替换为你的 ConvertKit API Key 和 Form ID
+const CONVERTKIT_API_KEY = 'YOUR_API_KEY'
+const CONVERTKIT_FORM_ID = 'YOUR_FORM_ID'
+// ==================== 配置区 ====================
+
 interface CTAButton {
   text: string
   type: 'primary' | 'default' | 'success'
@@ -40,18 +46,47 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const email = ref('')
-const subscribeStatus = ref<'idle' | 'success' | 'error'>('idle')
+const subscribeStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const errorMessage = ref('')
 
-const handleSubscribe = () => {
+const handleSubscribe = async () => {
   if (!email.value || !email.value.includes('@')) {
+    errorMessage.value = '请输入有效的邮箱地址'
     return
   }
-  // Placeholder subscription logic
-  subscribeStatus.value = 'success'
-  setTimeout(() => {
-    subscribeStatus.value = 'idle'
-    email.value = ''
-  }, 3000)
+
+  subscribeStatus.value = 'loading'
+
+  try {
+    // ConvertKit API v4
+    const response = await fetch(`https://api.convertkit.com/v4/forms/${CONVERTKIT_FORM_ID}/subscribe`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        api_key: CONVERTKIT_API_KEY,
+        email: email.value
+      })
+    })
+
+    if (!response.ok) {
+      throw new Error('订阅失败，请稍后重试')
+    }
+
+    subscribeStatus.value = 'success'
+    errorMessage.value = ''
+
+    // 3秒后重置状态
+    setTimeout(() => {
+      subscribeStatus.value = 'idle'
+      email.value = ''
+    }, 3000)
+  } catch (err) {
+    console.error('订阅错误:', err)
+    subscribeStatus.value = 'error'
+    errorMessage.value = err instanceof Error ? err.message : '订阅失败，请稍后重试'
+  }
 }
 </script>
 
@@ -95,19 +130,25 @@ const handleSubscribe = () => {
           placeholder="your@email.com"
           size="large"
           class="subscribe-input"
+          :disabled="subscribeStatus === 'loading'"
           @keyup.enter="handleSubscribe"
         />
         <el-button
           type="primary"
           size="large"
           @click="handleSubscribe"
-          :disabled="!email || !email.includes('@')"
+          :disabled="!email || !email.includes('@') || subscribeStatus === 'loading'"
+          :loading="subscribeStatus === 'loading'"
         >
-          订阅
+          {{ subscribeStatus === 'loading' ? '订阅中...' : '订阅' }}
         </el-button>
       </div>
 
-      <div class="subscribe-success" v-else>
+      <div class="subscribe-error" v-if="subscribeStatus === 'error'">
+        <span class="error-text">{{ errorMessage }}</span>
+      </div>
+
+      <div class="subscribe-success" v-else-if="subscribeStatus === 'success'">
         <el-icon><Check /></el-icon>
         <span>订阅成功！</span>
       </div>
@@ -224,6 +265,15 @@ const handleSubscribe = () => {
 
       .el-icon {
         font-size: 18px;
+      }
+    }
+
+    .subscribe-error {
+      margin-top: 8px;
+
+      .error-text {
+        color: var(--el-color-danger);
+        font-size: 0.85rem;
       }
     }
   }
