@@ -1,128 +1,214 @@
 [
   {
-    "id": "ai-employee-services",
-    "title": "AI员工团队服务",
-    "date": "2026-03-22",
-    "description": "不是AI工具，是AI员工团队。按月付费，包月服务，无需管理，稳定交付。",
-    "tags": ["AI服务", "内容生产", "市场调研", "品牌策划"]
-  },
-  {
-    "id": "how-i-use-ai-team-for-content",
-    "title": "我是如何用AI团队一个人做内容的",
-    "date": "2026-03-22",
-    "description": "不招人、不加班、不买昂贵工具。我的AI内容团队工作流全拆解。",
-    "tags": ["AI团队", "内容生产", "一人公司", "效率工具"]
-  },
-  {
-    "id": "ai-team-one-person-company-2026",
-    "title": "我用AI团队一个人开了一家公司，月入3万",
-    "date": "2026-03-22",
-    "description": "不夸张地说，AI团队让我一个人能干三个人的活。说说我是怎么做到的，以及目前真实遇到的坑。",
-    "tags": ["一人公司", "AI团队", "创业"]
-  },
-  {
-    "id": "one-person-content-marketing-2026",
-    "title": "2026年了，一个人怎么做内容营销",
-    "date": "2026-03-22",
-    "description": "平台越来越多，用户注意力越来越分散，一个人做内容营销还能做吗？能，但方法必须变。",
-    "tags": ["内容营销", "一人公司", "小红书", "公众号"]
-  },
-  {
-    "id": "why-ai-team-not-single-ai-tool",
-    "title": "AI写作工具这么多，为什么我选择用AI团队",
-    "date": "2026-03-22",
-    "description": "ChatGPT、Claude、DeepSeek……AI写作工具越来越多，但为什么我还是选择用一套AI团队而不是一个AI工具？",
-    "tags": ["AI工具", "AI团队", "ChatGPT", "效率"]
-  },
-  {
-    "id": "one-person-brand-strategy-with-ai",
-    "title": "从0到1：一个人如何用AI完成品牌全案",
-    "date": "2026-03-22",
-    "description": "品牌全案听起来是大公司才会做的事。其实一个人+AI，完全可以完成一个像样的品牌全案。说说我的完整路径。",
-    "tags": ["品牌", "一人公司", "AI工具", "创业"]
-  },
-  {
-    "id": "why-one-person-company-is-future-2026",
-    "title": "为什么一人公司是未来三年最好的创业模式",
-    "date": "2026-03-22",
-    "description": "不是讲概念，说说现实。一个人+AI+自媒体，可能是未来三年门槛最低、成功率最高的创业路径。",
-    "tags": ["一人公司", "创业", "AI", "自媒体"]
-  },
-  {
-    "id": "ai-vs-marketing-team-2026",
-    "title": "AI 能不能替代市场部？我的实测结论",
-    "date": "2026-03-22",
-    "description": "我让 AI 团队做了 3 个月市场营销，结论是：AI 能替代大部分执行工作，但有一件事 AI 永远替代不了人。",
-    "tags": ["AI", "市场营销", "一人公司", "实战"]
-  },
-  {
-    "id": "ai-oneperson-xiaohongshu-2026",
-    "title": "2026 年了，一个人怎么做小红书内容？",
-    "date": "2026-03-22",
-    "description": "日更、选题、标题、配图——一个人做小红书最大的坑不是内容，是效率。我用 AI 团队把内容生产时间压缩到 20 分钟。",
-    "tags": ["小红书", "AI", "内容营销", "一人公司"]
-  },
-  {
     "id": "ai-team-real-project-data-2026",
     "title": "用AI团队开发一个完整产品需要多久？我们跑了5个项目的真实数据",
     "date": "2026-03-26",
     "description": "不是概念测试。是我们用AI团队实际完成的5个项目，告诉你真实耗时、真实成本、真实踩过的坑。",
-    "tags": ["AI团队", "开发效率", "一人公司", "真实数据", "产品开发"]
-  },
-  {
-    "id": "from-6-team-to-zero-ai-workflow-reveal",
-    "title": "我把团队从6个人裁到了0：一人公司AI工作流全公开",
-    "date": "2026-03-22",
-    "description": "不是标题党。真实复盘：从6人团队，到只有AI，到月入X万。我经历了什么，为什么这么做，以及真实踩过的坑。",
-    "tags": ["一人公司", "AI团队", "创业复盘", "工作流"]
+    "tags": [
+      "AI团队",
+      "开发效率",
+      "一人公司",
+      "真实数据",
+      "产品开发"
+    ]
   },
   {
     "id": "local-image-model-value",
     "title": "为什么我做内容服务一定要本地文生图模型",
     "date": "2026-03-26",
     "description": "不是技术炫技，是商业逻辑。告诉你为什么我坚持搭本地出图能力，以及它怎么帮我拿下第一个付费客户。",
-    "tags": ["AI服务", "内容生产", "图像生成", "电商", "本地部署"]
+    "tags": [
+      "AI服务",
+      "内容生产",
+      "图像生成",
+      "电商",
+      "本地部署"
+    ]
   },
   {
-    "id": "cursor-mcp-workflow-2026",
-    "title": "2026 年开发者标配：我的 Cursor + MCP 自动化工作流",
-    "date": "2026-03-07",
-    "description": "还在手动复制粘贴代码？分享我如何配置 MCP Server，让 AI 直接操作我的本地工具链。",
-    "tags": ["Cursor", "MCP", "自动化"]
+    "id": "ai-employee-services",
+    "title": "AI员工团队服务",
+    "date": "2026-03-22",
+    "description": "不是AI工具，是AI员工团队。按月付费，包月服务，无需管理，稳定交付。",
+    "tags": [
+      "AI服务",
+      "内容生产",
+      "市场调研",
+      "品牌策划"
+    ]
   },
   {
-    "id": "rag-product-launch-week-1",
-    "title": "从 0 到 1：我如何用 AI 一周开发并上线 RAG 知识库",
-    "date": "2026-03-05",
-    "description": "拒绝空谈 AI。分享我如何利用 Vite + Supabase + LLM 在 7 天内构建出一个面向中小团队的私有知识库产品。",
-    "tags": ["AI", "RAG", "实战"]
+    "id": "ai-oneperson-xiaohongshu-2026",
+    "title": "2026 年了，一个人怎么做小红书内容？",
+    "date": "2026-03-22",
+    "description": "日更、选题、标题、配图——一个人做小红书最大的坑不是内容，是效率。我用 AI 团队把内容生产时间压缩到 20 分钟。",
+    "tags": [
+      "小红书",
+      "AI",
+      "内容营销",
+      "一人公司"
+    ]
+  },
+  {
+    "id": "ai-team-one-person-company-2026",
+    "title": "我用AI团队一个人开了一家公司：真实复盘与踩坑",
+    "date": "2026-03-22",
+    "description": "不夸张地说，AI团队让我一个人能干三个人的活。说说我是怎么做到的，以及目前真实遇到的坑。",
+    "tags": [
+      "一人公司",
+      "AI团队",
+      "创业"
+    ]
+  },
+  {
+    "id": "ai-vs-marketing-team-2026",
+    "title": "AI 能不能替代市场部？我的实测结论",
+    "date": "2026-03-22",
+    "description": "我让 AI 团队做了 3 个月市场营销，结论是：AI 能替代大部分执行工作，但有一件事 AI 永远替代不了人。",
+    "tags": [
+      "AI",
+      "市场营销",
+      "一人公司",
+      "实战"
+    ]
+  },
+  {
+    "id": "from-6-team-to-zero-ai-workflow-reveal",
+    "title": "我把团队从6个人裁到了0：一人公司AI工作流全公开",
+    "date": "2026-03-22",
+    "description": "不是标题党。真实复盘：从6人团队，到只有AI，到月入X万。我经历了什么，为什么这么做，以及真实踩过的坑。",
+    "tags": [
+      "一人公司",
+      "AI团队",
+      "创业复盘",
+      "工作流"
+    ]
+  },
+  {
+    "id": "how-i-use-ai-team-for-content",
+    "title": "我是如何用AI团队一个人做内容的",
+    "date": "2026-03-22",
+    "description": "不招人、不加班、不买昂贵工具。我的AI内容团队工作流全拆解。",
+    "tags": [
+      "AI团队",
+      "内容生产",
+      "一人公司",
+      "效率工具"
+    ]
+  },
+  {
+    "id": "one-person-brand-strategy-with-ai",
+    "title": "从0到1：一个人如何用AI完成品牌全案",
+    "date": "2026-03-22",
+    "description": "品牌全案听起来是大公司才会做的事。 其实一个人+AI，完全可以完成一个像样的品牌全案。说说我的完整路径。",
+    "tags": [
+      "品牌",
+      "一人公司",
+      "AI工具",
+      "创业"
+    ]
+  },
+  {
+    "id": "one-person-content-marketing-2026",
+    "title": "2026年了，一个人怎么做内容营销",
+    "date": "2026-03-22",
+    "description": "平台越来越多，用户注意力越来越分散，一个人做内容营销还能做吗？能，但方法必须变。",
+    "tags": [
+      "内容营销",
+      "一人公司",
+      "小红书",
+      "公众号"
+    ]
   },
   {
     "id": "openclaw-deploy-migration-guide",
     "title": "3分钟迁移 OpenClaw 环境：openclaw-deploy 实战",
     "date": "2026-03-22",
     "description": "换服务器、重装系统、不想从头配置？用 openclaw-deploy 一键把整个 OpenClaw 环境打包带走，到新机器解压就能跑。",
-    "tags": ["OpenClaw", "DevOps", "自动化", "工具推荐"]
+    "tags": [
+      "OpenClaw",
+      "DevOps",
+      "自动化",
+      "工具推荐"
+    ]
+  },
+  {
+    "id": "why-ai-team-not-single-ai-tool",
+    "title": "AI写作工具这么多，为什么我选择用AI团队",
+    "date": "2026-03-22",
+    "description": "ChatGPT、Claude、DeepSeek……AI写作工具越来越多，但为什么我还是选择用一套AI团队而不是一个AI工具？",
+    "tags": [
+      "AI工具",
+      "AI团队",
+      "ChatGPT",
+      "效率"
+    ]
+  },
+  {
+    "id": "why-one-person-company-is-future-2026",
+    "title": "为什么一人公司是未来三年最好的创业模式",
+    "date": "2026-03-22",
+    "description": "不是讲概念，说说现实。一个人+AI+自媒体，可能是未来三年门槛最低、成功率最高的创业路径。",
+    "tags": [
+      "一人公司",
+      "创业",
+      "AI",
+      "自媒体"
+    ]
+  },
+  {
+    "id": "cursor-mcp-workflow-2026",
+    "title": "2026 年开发者标配：我的 Cursor + MCP 自动化工作流",
+    "date": "2026-03-07",
+    "description": "还在手动复制粘贴代码？分享我如何配置 MCP Server，让 AI 直接操作我的本地工具链。",
+    "tags": [
+      "Cursor",
+      "MCP",
+      "自动化"
+    ]
+  },
+  {
+    "id": "rag-product-launch-week-1",
+    "title": "从 0 到 1：我如何用 AI 一周开发并上线 RAG 知识库",
+    "date": "2026-03-05",
+    "description": "拒绝空谈 AI。分享我如何利用 Vite + Supabase + LLM 在 7 天内构建出一个面向中小团队的私有知识库产品。",
+    "tags": [
+      "AI",
+      "RAG",
+      "实战"
+    ]
   },
   {
     "id": "frontend-engineering-checklist",
     "title": "前端工程化自检清单（个人项目）",
     "date": "2026-01-26",
     "description": "一个偏实用的 checklist：类型、构建、测试、代码质量、发布与可维护性。",
-    "tags": ["工程化", "TypeScript", "质量"]
+    "tags": [
+      "工程化",
+      "TypeScript",
+      "质量"
+    ]
   },
   {
     "id": "seo-sitemap-rss",
     "title": "网站 SEO 基础：Sitemap 与 RSS",
     "date": "2026-01-25",
     "description": "用构建脚本从 Markdown frontmatter 生成 sitemap.xml 与 rss.xml，让搜索与订阅更可靠。",
-    "tags": ["SEO", "RSS", "Sitemap"]
+    "tags": [
+      "SEO",
+      "RSS",
+      "Sitemap"
+    ]
   },
   {
     "id": "markdown-blog-vue-vite",
     "title": "用 Markdown 搭一个轻量博客（Vue + Vite）",
     "date": "2026-01-24",
     "description": "记录一个最小可用的 Markdown 博客：路由、frontmatter、按需加载与目录生成。",
-    "tags": ["Vue", "Vite", "Markdown"]
+    "tags": [
+      "Vue",
+      "Vite",
+      "Markdown"
+    ]
   }
 ]

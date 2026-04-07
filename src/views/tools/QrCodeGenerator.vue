@@ -4,7 +4,9 @@ import { Download } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import QRCode from 'qrcode'
 import { ref, watch } from 'vue'
+import { useDark } from '@vueuse/core'
 
+const isDark = useDark()
 const inputText = ref('https://example.com')
 const qrDataUrl = ref('')
 const errorMsg = ref('')
@@ -12,9 +14,15 @@ const errorMsg = ref('')
 // Settings
 const size = ref(300)
 const margin = ref(2)
-const darkColor = ref('#000000')
-const lightColor = ref('#ffffff')
+const darkColor = ref(isDark.value ? '#ffffff' : '#000000')
+const lightColor = ref(isDark.value ? '#0f172a' : '#ffffff')
 const errorCorrectionLevel = ref<'L' | 'M' | 'Q' | 'H'>('M')
+
+// Auto-adjust QR colors for dark mode
+watch(isDark, (dark) => {
+  darkColor.value = dark ? '#ffffff' : '#000000'
+  lightColor.value = dark ? '#0f172a' : '#ffffff'
+})
 
 const generateQR = async () => {
   if (!inputText.value) {

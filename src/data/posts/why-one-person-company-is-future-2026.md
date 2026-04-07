@@ -157,7 +157,7 @@ AI：执行、生产、分析、重复性工作
 
 ## 相关阅读
 
-- [《我用AI团队一个人开了一家公司，月入3万》](/blog/ai-team-one-person-company-2026)
+- [《我用AI团队一个人开了一家公司：真实复盘与踩坑》](/blog/ai-team-one-person-company-2026)
 - [《我是如何用AI团队一个人做内容的》](/blog/how-i-use-ai-team-for-content)
 - [《从0到1：一个人如何用AI完成品牌全案》](/blog/one-person-brand-strategy-with-ai)
 

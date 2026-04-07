@@ -140,4 +140,4 @@ const headings = root.querySelectorAll('.markdown-body h2, .markdown-body h3')
 
 - [《前端工程化自检清单》](/blog/frontend-engineering-checklist)
 - [《网站 SEO 基础：Sitemap 与 RSS》](/blog/seo-sitemap-rss)
-- [《Cursor + MCP 自动化工作流》](/blog/cursor-mcp-workflow-2026)
+- [《Cursor + MCP 自动化工作流》](/blog/cursor-mcp-workflow-2026)（即 `cursor-mcp-workflow-2026`，站内即将补充）

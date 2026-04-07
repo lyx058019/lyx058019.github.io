@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Message, Coffee, Newsletter, Check } from '@element-plus/icons-vue'
+import { Message, Coffee, Check } from '@element-plus/icons-vue'
 
 // ==================== 配置区 ====================
-// TODO: 替换为你的 ConvertKit API Key 和 Form ID
-const CONVERTKIT_API_KEY = 'YOUR_API_KEY'
-const CONVERTKIT_FORM_ID = 'YOUR_FORM_ID'
+const CONVERTKIT_API_KEY = import.meta.env.VITE_CONVERTKIT_API_KEY || 'YOUR_API_KEY'
+const CONVERTKIT_FORM_ID = import.meta.env.VITE_CONVERTKIT_FORM_ID || 'YOUR_FORM_ID'
 // ==================== 配置区 ====================
 
 interface CTAButton {
@@ -119,7 +118,7 @@ const handleSubscribe = async () => {
 
     <div class="subscribe-section" v-if="showSubscribe">
       <div class="subscribe-header">
-        <el-icon><Newsletter /></el-icon>
+        <el-icon><Message /></el-icon>
         <span>订阅更新</span>
       </div>
       <p class="subscribe-desc">第一时间获取新文章和工作流优化技巧</p>
@@ -136,6 +135,7 @@ const handleSubscribe = async () => {
         <el-button
           type="primary"
           size="large"
+          data-track="subscribe"
           @click="handleSubscribe"
           :disabled="!email || !email.includes('@') || subscribeStatus === 'loading'"
           :loading="subscribeStatus === 'loading'"
@@ -192,6 +192,12 @@ const handleSubscribe = async () => {
     .el-button {
       min-width: 140px;
       font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px var(--pk-shadow-soft);
+      }
     }
   }
 

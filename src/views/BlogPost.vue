@@ -8,20 +8,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 // Import monetization components
 import DonationSection from '@/components/common/DonationSection.vue'
-import AffiliationCard from '@/components/common/AffiliationCard.vue'
 import ArticleCTA from '@/components/common/ArticleCTA.vue'
-
-// ==================== 联盟链接配置 ====================
-// TODO: 替换为你的真实联盟链接
-const affiliateLinks = {
-  cursor: 'https://cursor.com/affiliate?ref=YOUR_AFFILIATE_ID',
-  notion: 'https://notion.so/affiliate?ref=YOUR_AFFILIATE_ID',
-  github: 'https://github.com/premium?ref=YOUR_AFFILIATE_ID',
-  vercel: 'https://vercel.com/affiliate?ref=YOUR_AFFILIATE_ID',
-  supabase: 'https://supabase.com/affiliate?ref=YOUR_AFFILIATE_ID',
-  deepseek: 'https://platform.deepseek.com/affiliate?ref=YOUR_AFFILIATE_ID',
-}
-// ==================== 联盟链接配置 ====================
 
 const route = useRoute()
 const router = useRouter()
@@ -209,12 +196,21 @@ watchEffect((onCleanup) => {
 const goBack = () => {
   router.push('/blog')
 }
+
+const scrollToSection = (id: string) => {
+  const el = document.getElementById(id)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
 </script>
 
 <template>
   <div class="blog-post-view">
     <!-- Reading Progress Bar -->
-    <div class="reading-progress-bar" :style="{ transform: `scaleX(${scrollProgress / 100})` }"></div>
+    <div class="reading-progress-bar" role="progressbar" :aria-valuenow="Math.round(scrollProgress)"
+      aria-valuemin="0" aria-valuemax="100" aria-label="阅读进度"
+      :style="{ transform: `scaleX(${scrollProgress / 100})` }"></div>
 
     <div v-if="error" class="error-state">
       <el-empty description="文章加载失败或不存在" />
@@ -235,13 +231,15 @@ const goBack = () => {
             <div class="toc-title">ON THIS PAGE</div>
             <ul class="toc-list">
               <li v-for="item in toc" :key="item.id" :class="['toc-item', `level-${item.level}`]"
-                @click="router.push(`#${item.id}`)">
+                @click="scrollToSection(item.id)">
                 <a :href="`#${item.id}`">{{ item.text }}</a>
               </li>
             </ul>
           </div>
 
           <!-- Product Recommendation Placeholder -->
+          <!--
+          TODO: 替换为真实联盟链接后取消注释
           <div class="affiliation-section">
             <div class="section-label">RECOMMENDED</div>
             <AffiliationCard
@@ -252,6 +250,7 @@ const goBack = () => {
               icon="Star"
             />
           </div>
+          -->
         </div>
       </aside>
 
@@ -278,7 +277,7 @@ const goBack = () => {
               </template>
               <ul class="toc-list">
                 <li v-for="item in toc" :key="item.id" :class="['toc-item', `level-${item.level}`]"
-                  @click="router.push(`#${item.id}`)">
+                  @click="scrollToSection(item.id)">
                   <a :href="`#${item.id}`">{{ item.text }}</a>
                 </li>
               </ul>
@@ -600,6 +599,11 @@ const goBack = () => {
 
   .nav-next {
     text-align: left !important;
+  }
+
+  :deep(.markdown-body) {
+    font-size: 1.05rem;
+    line-height: 1.85;
   }
 }
 

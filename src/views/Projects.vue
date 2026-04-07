@@ -8,7 +8,7 @@
       <el-col :xs="24" :sm="12" :md="8" v-for="p in projectList" :key="p.title" class="project-col">
         <el-card :body-style="{ padding: '0px' }" class="project-card" shadow="hover">
           <div class="image-wrapper">
-            <img :src="p.image" class="image" />
+            <img :src="p.image" :alt="p.title" class="image" />
             <div class="image-overlay" v-if="p.link || p.repo">
               <el-button-group>
                 <el-button v-if="p.link" type="primary" @click="openLink(p.link)">预览</el-button>

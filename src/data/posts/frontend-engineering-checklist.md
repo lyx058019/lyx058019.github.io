@@ -165,4 +165,4 @@ docs: 更新 SEO 配置说明
 
 - [《用 Markdown 搭一个轻量博客》](/blog/markdown-blog-vue-vite)
 - [《网站 SEO 基础：Sitemap 与 RSS》](/blog/seo-sitemap-rss)
-- [《Cursor + MCP 自动化工作流》](/blog/cursor-mcp-workflow-2026)
+- [《Cursor + MCP 自动化工作流》](/blog/cursor-mcp-workflow-2026)（即 `cursor-mcp-workflow-2026`，站内即将补充）

@@ -33,7 +33,7 @@ const openTool = (path: string) => {
 
     <!-- Search Section -->
     <div class="site-controls">
-      <el-input v-model="searchQuery" placeholder="Search tools..." clearable class="search-input" size="large">
+      <el-input v-model="searchQuery" placeholder="搜索工具..." clearable class="search-input" size="large">
         <template #prefix>
           <el-icon>
             <Search />
@@ -62,7 +62,7 @@ const openTool = (path: string) => {
     </el-row>
 
     <!-- 占位提示 -->
-    <el-empty v-if="filteredTools.length === 0" description="No tools found" />
+    <el-empty v-if="filteredTools.length === 0" description="未找到相关工具" />
   </div>
 </template>
 

@@ -134,7 +134,7 @@ A：可以，开具增值税普通发票或专用发票。
 如果你想了解 AI 团队的工作方式，推荐阅读：
 
 - [《我是如何用AI团队一个人做内容的》](/blog/how-i-use-ai-team-for-content)
-- [《我用AI团队一个人开了一家公司，月入3万》](/blog/ai-team-one-person-company-2026)
+- [《我用AI团队一个人开了一家公司：真实复盘与踩坑》](/blog/ai-team-one-person-company-2026)
 - [《为什么一人公司是未来三年最好的创业模式》](/blog/why-one-person-company-is-future-2026)
 
 ---

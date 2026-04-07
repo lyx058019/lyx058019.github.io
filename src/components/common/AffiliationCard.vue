@@ -29,7 +29,7 @@ const openAffiliateLink = () => {
 </script>
 
 <template>
-  <div class="affiliation-card" @click="openAffiliateLink">
+  <div class="affiliation-card" data-track="affiliate" @click="openAffiliateLink">
     <div class="card-badge" v-if="badge">
       <el-icon><Star /></el-icon>
       <span>{{ badge }}</span>

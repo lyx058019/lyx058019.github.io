@@ -3,7 +3,7 @@
   <ShortName>MicRabbit</ShortName>
   <Description>MicRabbit 的个人网站搜索</Description>
   <Tags>前端工程化 Vue TypeScript AI 个人博客</Tags>
-  <Contact>micrabbit@example.com</Contact>
+  <Contact>lyx058019@gmail.com</Contact>
   <Url type="text/html" template="https://lyx058019.github.io/?q={searchTerms}"/>
   <Url type="application/rss+xml" template="https://lyx058019.github.io/rss.xml?q={searchTerms}"/>
   <Image height="32" width="32" type="image/svg+xml">https://lyx058019.github.io/favicon.svg</Image>

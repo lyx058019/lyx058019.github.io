@@ -61,7 +61,7 @@ const goToPost = (id: string) => {
     </div>
 
     <div class="category-entry">
-      <div class="entry-card">
+      <div class="entry-card" @click="router.push('/blog?tag=AI产品')">
         <div class="entry-head">
           <span class="entry-tag">分类 01</span>
           <el-icon>
@@ -71,7 +71,7 @@ const goToPost = (id: string) => {
         <h3>AI 产品实战</h3>
         <p>选型、架构、工程化与踩坑，记录把AI落地成产品的全过程。</p>
       </div>
-      <div class="entry-card">
+      <div class="entry-card" @click="router.push('/blog?tag=AI工具')">
         <div class="entry-head">
           <span class="entry-tag">分类 02</span>
           <el-icon>
@@ -217,12 +217,12 @@ const goToPost = (id: string) => {
     font-size: 1.6rem;
     font-weight: 700;
     line-height: 1.3;
-    color: var(--el-text-color-primary);
+    color: var(--pk-color-text-primary);
   }
 
   .post-date {
     font-size: 0.9rem;
-    color: var(--el-text-color-secondary);
+    color: var(--pk-color-text-secondary);
     white-space: nowrap;
     padding-top: 6px;
   }
@@ -235,7 +235,7 @@ const goToPost = (id: string) => {
 
     .meta-info {
       font-size: 0.85rem;
-      color: var(--el-text-color-secondary);
+      color: var(--pk-color-text-secondary);
       display: flex;
       align-items: center;
       gap: 4px;
@@ -244,11 +244,11 @@ const goToPost = (id: string) => {
 
   .post-date {
     font-size: 0.85rem;
-    color: var(--el-text-color-secondary);
+    color: var(--pk-color-text-secondary);
   }
 
   .post-desc {
-    color: var(--el-text-color-regular);
+    color: var(--pk-color-text-secondary);
     line-height: 1.6;
     margin: 0;
     font-size: 1.05rem;

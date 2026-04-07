@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Message, Wechat, Alipay, Mail } from '@element-plus/icons-vue'
+import { Message } from '@element-plus/icons-vue'
 
 const activeTab = ref<'wechat' | 'alipay'>('wechat')
 
-const contactEmail = 'micrabbit@example.com'
+const contactEmail = 'lyx058019@gmail.com'
 </script>
 
 <template>
@@ -46,7 +46,7 @@ const contactEmail = 'micrabbit@example.com'
         </el-divider>
         <p class="fallback-text">没有二维码？也可以通过邮箱联系我</p>
         <a :href="`mailto:${contactEmail}`" class="contact-link">
-          <el-icon><Mail /></el-icon>
+          <el-icon><Message /></el-icon>
           <span>{{ contactEmail }}</span>
         </a>
       </div>
@@ -130,33 +130,6 @@ const contactEmail = 'micrabbit@example.com'
 
     &:hover {
       transform: scale(1.02);
-    }
-  }
-
-  .qrcode-placeholder {
-    width: 200px;
-    height: 200px;
-    background: var(--pk-ambient-1);
-    border: 1px dashed var(--pk-border-color);
-    border-radius: var(--border-radius-lg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: var(--pk-color-text-secondary);
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-
-    &:hover {
-      border-color: var(--pk-color-primary);
-      background: var(--pk-ambient-2);
-    }
-
-    .qrcode-hint {
-      font-size: 0.8rem;
-      margin: 0;
-      opacity: 0.7;
     }
   }
 

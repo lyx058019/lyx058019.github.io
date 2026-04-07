@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Moon, Sunny } from '@element-plus/icons-vue'
+import { Moon, Sunny, Expand, Close } from '@element-plus/icons-vue'
 import { useDark } from '@vueuse/core'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -18,7 +18,10 @@ const toggleDark = () => {
   isDark.value = !isDark.value
 }
 
-const handleSelect = (key: string) => {
+const mobileMenuOpen = ref(false)
+
+const handleNavSelect = (key: string) => {
+  mobileMenuOpen.value = false
   if (key === 'home') router.push('/')
   else router.push(`/${key}`)
 }
@@ -26,6 +29,9 @@ const handleSelect = (key: string) => {
 
 <template>
   <div class="common-layout">
+    <!-- Skip Navigation Link -->
+    <a href="#main-content" class="skip-link">跳过导航</a>
+
     <el-container class="layout-container">
       <el-header class="header">
         <div class="header-inner">
@@ -33,23 +39,42 @@ const handleSelect = (key: string) => {
             <span class="logo-text">MicRabbit</span>
           </div>
 
-          <el-menu :default-active="activeIndex" mode="horizontal" class="nav-menu" @select="handleSelect"
+          <el-menu :default-active="activeIndex" mode="horizontal" class="nav-menu" @select="handleNavSelect"
             :ellipsis="false">
             <el-menu-item index="home">首页</el-menu-item>
             <el-menu-item index="blog">博客</el-menu-item>
             <el-menu-item index="tools">工具箱</el-menu-item>
           </el-menu>
 
+          <!-- Mobile Hamburger -->
+          <el-button :icon="mobileMenuOpen ? Close : Expand" circle plain @click="mobileMenuOpen = !mobileMenuOpen"
+            class="mobile-menu-btn" />
+
           <div class="header-right">
             <el-button :icon="isDark ? Moon : Sunny" circle plain @click="toggleDark" class="theme-toggle" />
-          <el-link href="https://github.com/lyx058019" target="_blank" :underline="false" class="github-link">
-            GitHub
-          </el-link>
+            <el-link href="https://github.com/lyx058019" target="_blank" :underline="false" class="github-link">
+              GitHub
+            </el-link>
           </div>
         </div>
       </el-header>
 
-      <el-main class="main-content">
+      <!-- Mobile Drawer -->
+      <el-drawer v-model="mobileMenuOpen" direction="rtl" size="60%" :show-close="false" class="mobile-drawer">
+        <template #header>
+          <div class="drawer-header">
+            <span class="drawer-title">导航</span>
+            <el-button :icon="Close" circle text @click="mobileMenuOpen = false" />
+          </div>
+        </template>
+        <el-menu :default-active="activeIndex" @select="handleNavSelect" class="mobile-nav-menu">
+          <el-menu-item index="home">首页</el-menu-item>
+          <el-menu-item index="blog">博客</el-menu-item>
+          <el-menu-item index="tools">工具箱</el-menu-item>
+        </el-menu>
+      </el-drawer>
+
+      <el-main class="main-content" id="main-content">
         <router-view v-slot="{ Component }">
           <transition name="fade" mode="out-in">
             <component :is="Component" />
@@ -67,7 +92,7 @@ const handleSelect = (key: string) => {
             <div class="footer-links">
               <a href="https://github.com/lyx058019" target="_blank">GitHub</a>
               <el-divider direction="vertical" />
-              <span>© 2026</span>
+              <span>© {{ new Date().getFullYear() }}</span>
             </div>
             <div class="footer-icp">
               <a href="https://beian.miit.gov.cn/" target="_blank">辽ICP备2026003242号-1</a>
@@ -235,12 +260,61 @@ const handleSelect = (key: string) => {
 
   .nav-menu {
     display: none;
-    /* In a real app we'd need a mobile menu drawer */
+  }
+
+  .mobile-menu-btn {
+    display: flex !important;
   }
 
   .site-footer .footer-inner {
     flex-direction: column;
     gap: 32px;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: 16px;
+  z-index: 99999;
+  padding: 8px 16px;
+  background: var(--pk-color-primary);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--border-radius-sm);
+
+  &:focus {
+    top: 16px;
+  }
+}
+
+.mobile-menu-btn {
+  display: none;
+}
+
+.mobile-drawer {
+  .drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .drawer-title {
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .mobile-nav-menu {
+    border: none;
+
+    .el-menu-item {
+      height: 56px;
+      line-height: 56px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
   }
 }
 </style>
