@@ -11,6 +11,18 @@ import DonationSection from '@/components/common/DonationSection.vue'
 import AffiliationCard from '@/components/common/AffiliationCard.vue'
 import ArticleCTA from '@/components/common/ArticleCTA.vue'
 
+// ==================== 联盟链接配置 ====================
+// TODO: 替换为你的真实联盟链接
+const affiliateLinks = {
+  cursor: 'https://cursor.com/affiliate?ref=YOUR_AFFILIATE_ID',
+  notion: 'https://notion.so/affiliate?ref=YOUR_AFFILIATE_ID',
+  github: 'https://github.com/premium?ref=YOUR_AFFILIATE_ID',
+  vercel: 'https://vercel.com/affiliate?ref=YOUR_AFFILIATE_ID',
+  supabase: 'https://supabase.com/affiliate?ref=YOUR_AFFILIATE_ID',
+  deepseek: 'https://platform.deepseek.com/affiliate?ref=YOUR_AFFILIATE_ID',
+}
+// ==================== 联盟链接配置 ====================
+
 const route = useRoute()
 const router = useRouter()
 const { y } = useScroll(window) // 监听页面滚动
@@ -235,7 +247,7 @@ const goBack = () => {
             <AffiliationCard
               title="Cursor AI"
               description="AI 驱动的代码编辑器，提升编程效率"
-              affiliate-url="https://example.com/affiliate?ref=micrabbit"
+              :affiliate-url="affiliateLinks.cursor"
               badge="赞助商"
               icon="Star"
             />
